@@ -1,0 +1,228 @@
+﻿====================================================================================================
+PHASE 2: ALL SKYSCANNER.CO.IN ENDPOINTS (complete inventory)
+====================================================================================================
+
+Total unique Skyscanner endpoint paths: 38
+
+  [ 1x] [GET ] 200 |        133B | application/json                    | android-chrome-manifest.json
+  [ 4x] [GET ] 200 |         43B | image/gif                           | g/aps/public/api/v1/pixel/impression
+  [ 1x] [GET ] 200 |         43B | image/gif                           | g/aps/public/api/v1/pixel/view
+  [ 1x] [GET ] 200 |       7298B | application/json                    | g/culture-data-service/dataservices/culture/cldr/v2.0/en-gb/in/inr
+  [ 1x] [GET ] 200 |      74795B | application/json                    | g/radar/api/v2/web-unified-search/KLUv_SCLxQMAsggdHcDrD__9HaoS2nfZkpDtfzNHSpmSlJKT6sAJKn6LixIc9PEYnz
+  [ 1x] [GET ] 200 |     361216B | application/json                    | g/radar/api/v2/web-unified-search/KLUv_SCP1QMA8ogdHcDrD__9HaoS2neSJNbu_X7dMiUpQhYx5opFBN82jxMggEFNst
+  [ 1x] [GET ] 200 |    1342119B | application/json                    | g/radar/api/v2/web-unified-search/KLUv_SCP5QMA8ggeHsDrD__9HaoS2nekJCJo9fNXKZNMkb1IdSCoWPS9Ak4TIIEhye
+  [ 1x] [GET ] 200 |    2434410B | application/json                    | g/radar/api/v2/web-unified-search/KLUv_SCP7QMA8kgeHsDrD__9HaoS2nekJHbt__vZUiaZRC5SHQgq1ql7BY8TJMJBTS
+  [ 1x] [GET ] 200 |         93B | application/json                    | g/saved-experience-api/v2/available-save-features
+  [ 1x] [GET ] 200 |       3529B | text/html                           | g/tagging/_/service_worker/6631/sw_iframe.html
+  [ 2x] [GET ] 200 |         48B | image/gif                           | g/tagging/_/set_cookie
+  [ 2x] [GET ] 200 |        497B | text/plain                          | g/tagging/g/collect
+  [ 1x] [GET ] 200 |     504804B | application/javascript              | g/tagging/gtag/js
+  [ 1x] [GET ] 200 |     217765B | text/html                           | transport/flights/amd/mru/260710/260718/
+  [ 1x] [POST] 200 |       5385B | application/json                    | /g/ars/public/api/v2/request
+  [ 2x] [POST] 200 |      18237B | application/json                    | /g/michelin/api/search/v1
+  [ 1x] [POST] 200 |        532B | application/json                    | /g/price-insights/api/v2/search/price-bands
+  [ 2x] [POST] 200 |        249B | application/json                    | /g/radar/api/v1/alternative-dates
+  [ 1x] [POST] 200 |       4292B | application/json                    | /g/radar/api/v2/web-unified-search/
+  [ 1x] [POST] 200 |       4775B | application/json                    | /g/search-intent/v1/pricecalendar
+  [ 1x] [POST] 200 |       1863B | application/json                    | /g/search-intent/v1/pricecalendar/month
+  [ 4x] [POST] 200 |        792B | application/json                    | /rf8vapwA/xhr/api/v2/collector
+  [ 6x] [POST] 200 |         26B | text/plain                          | /slipstream/grp/v1/custom/public/acorn/ExperimentChokePoint/experiment_choke_point.ExperimentChokePo
+  [ 2x] [POST] 200 |         26B | text/plain                          | /slipstream/grp/v1/custom/public/acorn/SmartMetric/experiment_smart_metrics.SmartMetric
+  [ 1x] [POST] 200 |         26B | text/plain                          | /slipstream/grp/v1/custom/public/acorn/dayview_completed/flights_ui.UIEvent
+  [ 1x] [POST] 200 |         26B | text/plain                          | /slipstream/grp/v1/custom/public/acorn/dayview_first_result_shown/flights_ui.UIEvent
+  [ 2x] [POST] 200 |         26B | text/plain                          | /slipstream/grp/v1/custom/public/acorn/dayview_latency/acorn.SearchResultsLatency
+  [ 1x] [POST] 200 |         26B | text/plain                          | /slipstream/grp/v1/custom/public/acorn/flights_day_view_loaded/flights_ui.UIEvent
+  [ 1x] [POST] 200 |         26B | text/plain                          | /slipstream/grp/v1/custom/public/acorn/funnel_events/clients.SearchResultsPage
+  [ 1x] [POST] 200 |         26B | text/plain                          | /slipstream/grp/v1/custom/public/acorn/funnel_events/clients.View
+  [ 3x] [POST] 200 |         26B | text/plain                          | /slipstream/grp/v1/custom/public/acorn/funnel_events/tallyman.InteractionEvent
+  [ 1x] [POST] 200 |         26B | text/plain                          | /slipstream/grp/v1/custom/public/acorn/live_prices_displayed/acorn.LivePricesDisplayed
+  [ 6x] [POST] 200 |         26B | text/plain                          | /slipstream/grp/v1/custom/public/acorn/mbd-web/user_behaviour_data_domain.ElementImpression
+  [ 4x] [POST] 200 |         26B | text/plain                          | /slipstream/grp/v1/custom/public/strevda/funnel_events/sponsored.AdImpression
+  [ 1x] [POST] 200 |         26B | text/plain                          | /slipstream/grp/v1/custom/public/strevda/funnel_events/sponsored.AdRequest
+  [ 1x] [POST] 200 |         26B | text/plain                          | /slipstream/grp/v1/custom/public/strevda/funnel_events/sponsored.AdResponse
+  [ 1x] [POST] 200 |         26B | text/plain                          | /slipstream/grp/v1/custom/public/strevda/funnel_events/sponsored.AdView
+  [ 1x] [POST] 200 |         26B | text/plain                          | /slipstream/view
+
+
+====================================================================================================
+PHASE 2B: DEEP DIVE on EACH SKYSCANNER ENDPOINT
+====================================================================================================
+
+================================================================================
+ENDPOINT: GET /android-chrome-manifest.json
+Count: 1x | Status: 200 | Size: 133B
+Response (133 chars):
+  Keys: ['name', 'short_name', 'start_url', 'display', 'gcm_sender_id']
+  'name': Skyscanner
+  'short_name': Skyscanner
+  'start_url': /
+  'display': standalone
+  'gcm_sender_id': 482941778795
+
+================================================================================
+ENDPOINT: GET /transport/flights/amd/mru/260710/260718/
+Count: 1x | Status: 200 | Size: 217765B
+Query params:
+  adultsv2: 1
+  cabinclass: economy
+  childrenv2: 
+  ref: home
+  rtn: 1
+  preferdirects: false
+  outboundaltsenabled: false
+  inboundaltsenabled: false
+Response (217517 chars):
+  (raw): <!doctype html>
+<html lang="en-GB" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta 
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Cheap flights from Ahmedabad to Port Louis at Skyscanner</title>
+    <meta name="description" content="Compare cheap flight booking from all major airlines and online travel agents, and find the cheapest air tickets to your favourite destinations." />
+    <meta name="robots" content="noindex" /
+
+
+====================================================================================================
+PHASE 3: ENTITY ID RESOLUTION - Search for autosuggest/geo/place endpoints
+====================================================================================================
+
+--- Searching ALL URLs for entity-related patterns ---
+  [GET] 200 | Found 'airport' in: https://www.skyscanner.co.in/g/tagging/g/collect?v=2&tid=G-XEEM7L2YCB&gtm=45he6640h2v888505023z89126969058za20kzb9126969058zd9126969058&_p=1780662468594&gcs=G111&gcd=13r3r3r3r5l1&npa=0&dma=0&ecid=1092
+  [POST] 200 | Found 'airport' in: https://www.google.com/rmkt/collect/1038637144/?random=496426072&fst=1780662467653&cv=10&fmt=8&label=MpR2CIn0vNIBENiwoe8D&bg=ffffff&guid=ON&u_w=1536&u_h=864&gtm=45h91e6640v888505023z89126969058z991304
+  [POST] 302 | Found 'airport' in: https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1038637144/?random=448185281&fst=1780662467658&cv=10&fmt=8&label=MpR2CIn0vNIBENiwoe8D&bg=ffffff&guid=ON&u_w=1536&u_h=864&gtm=45h91e6640
+  [GET] 302 | Found 'airport' in: https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1038637144/?random=496426072&fst=1780662467653&cv=10&fmt=3&label=MpR2CIn0vNIBENiwoe8D&bg=ffffff&guid=ON&u_w=1536&u_h=864&gtm=45h91e6640
+  [GET] 302 | Found 'airport' in: https://www.google.com/pagead/1p-user-list/1038637144/?random=496426072&fst=1780660800000&cv=10&fmt=3&label=MpR2CIn0vNIBENiwoe8D&bg=ffffff&guid=ON&u_w=1536&u_h=864&gtm=45h91e6640v888505023z89126969058
+  [GET] 200 | Found 'airport' in: https://www.google.co.in/pagead/1p-user-list/1038637144/?random=496426072&fst=1780660800000&cv=10&fmt=3&label=MpR2CIn0vNIBENiwoe8D&bg=ffffff&guid=ON&u_w=1536&u_h=864&gtm=45h91e6640v888505023z891269690
+  [GET] 302 | Found 'airport' in: https://www.google.com/pagead/1p-conversion/1038637144/?random=448185281&fst=1780662467658&cv=10&fmt=8&label=MpR2CIn0vNIBENiwoe8D&bg=ffffff&guid=ON&u_w=1536&u_h=864&gtm=45h91e6640v888505023z8912696905
+  [GET] 200 | Found 'airport' in: https://www.google.co.in/pagead/1p-conversion/1038637144/?random=448185281&fst=1780662467658&cv=10&fmt=8&label=MpR2CIn0vNIBENiwoe8D&bg=ffffff&guid=ON&u_w=1536&u_h=864&gtm=45h91e6640v888505023z89126969
+  [GET] 200 | Found 'entity' in: https://ib.adnxs.com/setuid?entity=52&code=k-pwqDnrJ10JXA2sfcbGh5YAsSNLNcQAK2MXSVCQ
+  [GET] 204 | Found 'complete' in: https://pagead2.googlesyndication.com/pagead/gen_204?id=ama_stats&su=www.skyscanner.co.in&doc=complete&pg_h=1519&pg_w=1521&pg_hs=1519&c=0&aa_c=0&d=0&all_d=0&ard=0&all_ard=0&dt=d
+  [POST] 204 | Found 'geo' in: https://csi.gstatic.com/csi?v=2&s=pagead&action=csi_pagead&dmc=16&top=1&puid=1~mq0wglf5&c=5211943409390752&e=31098755%2C31098907%2C31098926%2C31061691%2C31061693&ctx=1&met.9=1.4dr~2.4fo&met.1=1.mq0wgg
+  [GET] 200 | Found 'place' in: https://fastlane.rubiconproject.com/a/api/fastlane.json?account_id=16232&site_id=545522&zone_id=3394672%3B3819816%3B3394666%3B3394678&size_id=2%3B15%3B15%3B15&alt_size_ids=%3B10%3B10%3B10&gdpr=0&eid_p
+  [GET] 200 | Found 'city' in: https://securepubads.g.doubleclick.net/gampad/ads?pvsid=5211943409390752&correlator=2902628321730919&eid=31098755%2C31098907%2C31098926%2C31061691%2C31061693&output=ldjh&gdfp_req=1&vrg=202606020101&pt
+  [GET] 200 | Found 'place' in: https://ad.doubleclick.net/ddm/adj/N5716.152879SKYSCANNER32/B35716443.447809355;dc_ver=106.314;sz=300x600;u_sd=2.5;gdpr=0;nel=1;dsp_bidurl_0_=%24%7BSOURCE_URL_ENC%7D;dsp_campaignid_0_=%24%7BINSERTION_
+  [GET] 200 | Found 'place' in: https://ad.doubleclick.net/ddm/adj/N5716.152879SKYSCANNER32/B35716443.447311734;dc_ver=106.314;sz=300x250;u_sd=2.5;gdpr=0;nel=1;dsp_bidurl_0_=%24%7BSOURCE_URL_ENC%7D;dsp_campaignid_0_=%24%7BINSERTION_
+  [GET] 200 | Found 'place' in: https://fw.adsafeprotected.com/rjss/st/2894649/94342864/skeleton.js?ias_dspID=3&ias_campId=%24%7BINSERTION_ORDER_ID%7D&ias_pubId=%24%7BADSXT_PUBLISHER_ID%7D&ias_chanId=%24%7BEXCHANGE_ID%7D&ias_placeme
+  [GET] 200 | Found 'place' in: https://fw.adsafeprotected.com/rjss/st/2894649/94342849/skeleton.js?ias_dspID=3&ias_campId=%24%7BINSERTION_ORDER_ID%7D&ias_pubId=%24%7BADSXT_PUBLISHER_ID%7D&ias_chanId=%24%7BEXCHANGE_ID%7D&ias_placeme
+  [GET] 200 | Found 'place' in: https://jsconfig.adsafeprotected.com/jsconfig/rjss/st/2894649/94342864/skeleton.js?cbName=__IntegralAS_110389df63a6256341ac4f4e73be14d4_3732&ias_dspID=3&ias_campId=%24%7BINSERTION_ORDER_ID%7D&ias_pubI
+  [GET] 200 | Found 'place' in: https://jsconfig.adsafeprotected.com/jsconfig/rjss/st/2894649/94342849/skeleton.js?cbName=__IntegralAS_94252ea9eac82563bb4b99c93ddcfa01_371&ias_dspID=3&ias_campId=%24%7BINSERTION_ORDER_ID%7D&ias_pubId
+  [GET] 200 | Found 'geo' in: https://ut.pubmatic.com/geo?pubid=165463
+  [GET] 302 | Found 'place' in: https://jsconfig.adsafeprotected.com/rfw/st/2894649/94342864/skeleton.js?ias_dspID=3&ias_campId=%24%7BINSERTION_ORDER_ID%7D&ias_pubId=%24%7BADSXT_PUBLISHER_ID%7D&ias_chanId=%24%7BEXCHANGE_ID%7D&ias_pl
+  [GET] 200 | Found 'entity' in: https://dt.adsafeprotected.com/dt?advEntityId=2894649&asId=110389df-63a6-2563-41ac-4f4e73be14d4&tv=%7Bc:eGGRqd,pingTime:-3,time:1064,type:v,clog:%5B%7Bpiv:-1,vs:n,r:,w:300,h:600,t:1022%7D,%7Bpiv:0,vs:
+  [GET] 200 | Found 'entity' in: https://dt.adsafeprotected.com/dt?advEntityId=2894649&asId=110389df-63a6-2563-41ac-4f4e73be14d4&tv=%7Bc:eGGRqi,pingTime:-6,time:1069,type:i,es:0,sc:1,ha:1,fgad:1,fif:0,gmnp:0,for:1,b11:0,cnod:1,intblk
+  [GET] 302 | Found 'place' in: https://jsconfig.adsafeprotected.com/rfw/st/2894649/94342849/skeleton.js?ias_dspID=3&ias_campId=%24%7BINSERTION_ORDER_ID%7D&ias_pubId=%24%7BADSXT_PUBLISHER_ID%7D&ias_chanId=%24%7BEXCHANGE_ID%7D&ias_pl
+  [GET] 200 | Found 'entity' in: https://dt.adsafeprotected.com/dt?advEntityId=2894649&asId=110389df-63a6-2563-41ac-4f4e73be14d4&tv=%7Bc:eGGRrA,pingTime:-2,time:1149,type:a,im:%7Bsf:1,pom:1,prf:%7BbeA:1512,beZ:1514,mfA:1527,mfZ:1532,
+  [GET] 200 | Found 'entity' in: https://dt.adsafeprotected.com/dt?advEntityId=2894649&asId=94252ea9-eac8-2563-bb4b-99c93ddcfa01&tv=%7Bc:eGGRs0,pingTime:-3,time:1103,type:v,clog:%5B%7Bpiv:-1,vs:n,r:,w:300,h:250,t:1038%7D,%7Bpiv:0,vs:
+  [GET] 200 | Found 'entity' in: https://dt.adsafeprotected.com/dt?advEntityId=2894649&asId=94252ea9-eac8-2563-bb4b-99c93ddcfa01&tv=%7Bc:eGGRs9,pingTime:-6,time:1112,type:i,es:0,sc:1,ha:1,fgad:1,fif:0,gmnp:0,for:1,b11:0,cnod:1,intblk
+  [GET] 200 | Found 'entity' in: https://dt.adsafeprotected.com/dt?advEntityId=2894649&asId=94252ea9-eac8-2563-bb4b-99c93ddcfa01&tv=%7Bc:eGGRsz,pingTime:-2,time:1138,type:a,im:%7Bsf:1,pom:1,prf:%7BbeA:1532,beZ:1535,mfA:1550,mfZ:1555,
+  [GET] 200 | Found 'entity' in: https://dt.adsafeprotected.com/dt?advEntityId=2894649&asId=110389df-63a6-2563-41ac-4f4e73be14d4&tv=%7Bc:eGGRvZ,time:1422,type:e,sca:%7Beng:b,tss:%7Blts:2026-06-0517.58.01,tzo:-330,tzn:Asia/Calcutta%7D
+  [GET] 200 | Found 'entity' in: https://dt.adsafeprotected.com/dt?advEntityId=2894649&asId=110389df-63a6-2563-41ac-4f4e73be14d4&tv=%7Bc:eGGRz3,pingTime:-10,time:1612,type:s,mvn:ZnNjPTEzLHNkPTMsbm89OCxhc3A9MQ--,sd:MTcuNi40djgxNnx8MTU
+  [GET] 200 | Found 'entity' in: https://dt.adsafeprotected.com/dt?advEntityId=2894649&asId=110389df-63a6-2563-41ac-4f4e73be14d4&tv=%7Bc:eGGRHQ,pingTime:1,time:2157,type:p,clog:%5B%7Bpiv:-1,vs:n,r:,w:300,h:600,t:1022%7D,%7Bpiv:0,vs:o
+  [GET] 200 | Found 'entity' in: https://dt.adsafeprotected.com/dt?advEntityId=2894649&asId=110389df-63a6-2563-41ac-4f4e73be14d4&tv=%7Bc:eGGRS7,time:2794,type:e,env:%7Bgcd2:%7Bappl:0,cnst:na%7D%7D,es:0,sc:1,ha:1,fgad:1,fif:0,gmnp:0,f
+  [GET] 200 | Found 'geo' in: https://ut.pubmatic.com/geo?pubid=159110
+  [GET] 200 | Found 'entity' in: https://dt.adsafeprotected.com/dt?advEntityId=2894649&asId=94252ea9-eac8-2563-bb4b-99c93ddcfa01&tv=%7Bc:eGGRVE,pingTime:-10,time:2941,type:s,mvn:ZnNjPTEzLHNkPTMsbm89OCxhc3A9MQ--,sd:MTcuNi40djgxNnx8MTU
+  [GET] 200 | Found 'place' in: https://ad.doubleclick.net/ddm/adj/N5716.152879SKYSCANNER32/B35716443.447805713;dc_ver=106.314;dc_eid=40004001;sz=728x90;u_sd=2.5;gdpr=0;nel=1;dsp_bidurl_0_=%24%7BSOURCE_URL_ENC%7D;dsp_campaignid_0_=%
+  [GET] 200 | Found 'place' in: https://fw.adsafeprotected.com/rjss/st/2894649/94342861/skeleton.js?ias_dspID=3&ias_campId=%24%7BINSERTION_ORDER_ID%7D&ias_pubId=%24%7BADSXT_PUBLISHER_ID%7D&ias_chanId=%24%7BEXCHANGE_ID%7D&ias_placeme
+  [GET] 200 | Found 'place' in: https://jsconfig.adsafeprotected.com/jsconfig/rjss/st/2894649/94342861/skeleton.js?cbName=__IntegralAS_232472505ba625638ec656c109f27766_5438&ias_dspID=3&ias_campId=%24%7BINSERTION_ORDER_ID%7D&ias_pubI
+  [GET] 302 | Found 'place' in: https://jsconfig.adsafeprotected.com/rfw/st/2894649/94342861/skeleton.js?ias_dspID=3&ias_campId=%24%7BINSERTION_ORDER_ID%7D&ias_pubId=%24%7BADSXT_PUBLISHER_ID%7D&ias_chanId=%24%7BEXCHANGE_ID%7D&ias_pl
+  [GET] 200 | Found 'entity' in: https://dt.adsafeprotected.com/dt?advEntityId=2894649&asId=23247250-5ba6-2563-8ec6-56c109f27766&tv=%7Bc:eGGSnX,pingTime:-3,time:356,type:v,clog:%5B%7Bpiv:0,vs:o,r:r,w:728,h:90,t:295%7D%5D,es:0,sc:1,ha
+  [GET] 200 | Found 'entity' in: https://dt.adsafeprotected.com/dt?advEntityId=2894649&asId=23247250-5ba6-2563-8ec6-56c109f27766&tv=%7Bc:eGGSo2,pingTime:-6,time:361,type:i,es:0,sc:1,ha:1,fgad:1,fif:0,gmnp:0,for:1,b11:0,cnod:1,intblk:
+  [GET] 200 | Found 'entity' in: https://dt.adsafeprotected.com/dt?advEntityId=2894649&asId=23247250-5ba6-2563-8ec6-56c109f27766&tv=%7Bc:eGGSox,pingTime:-2,time:392,type:a,im:%7Bsf:0,pom:1,prf:%7BbeA:591,beZ:593,mfA:606,mfZ:608,cmA:8
+  [POST] 200 | Found 'complete' in: https://www.skyscanner.co.in/slipstream/grp/v1/custom/public/acorn/dayview_completed/flights_ui.UIEvent
+  [GET] 200 | Found 'entity' in: https://dt.adsafeprotected.com/dt?advEntityId=2894649&asId=23247250-5ba6-2563-8ec6-56c109f27766&tv=%7Bc:eGGSI0,pingTime:-10,time:1599,type:s,mvn:ZnNjPTEzLHNkPTMsbm89OCxhc3A9MQ--,sd:MTcuNi40djgxNnx8MTU
+  [GET] 200 | Found 'entity' in: https://dt.adsafeprotected.com/dt?advEntityId=2894649&asId=110389df-63a6-2563-41ac-4f4e73be14d4&tv=%7Bc:eGGSKv,pingTime:5,time:6166,type:p,clog:%5B%7Bpiv:-1,vs:n,r:,w:300,h:600,t:1022%7D,%7Bpiv:0,vs:o
+  [GET] 200 | Found 'entity' in: https://dt.adsafeprotected.com/dt?advEntityId=2894649&asId=110389df-63a6-2563-41ac-4f4e73be14d4&tv=%7Bc:eGGVlD,pingTime:15,time:16156,type:p,clog:%5B%7Bpiv:-1,vs:n,r:,w:300,h:600,t:1022%7D,%7Bpiv:0,vs
+
+--- Searching response bodies for IATA/entity ID mappings ---
+
+  Entity ID mappings found in responses:
+    AMD: ['128668851', '128668941', '27536554', '95673320', '95673351', '95673366', '95673375', '95673498', '95673506', '95673852']
+    BLR: ['128668851', '27539471', '95673320', '95673351', '95673366', '95673380', '95673498', '95673506']
+    BOM: ['128668851', '27539520', '95565041', '95673320', '95673323', '95673366', '95673395', '95673456', '95673498', '95673506']
+    DEL: ['27540706', '95565041', '95673320', '95673323', '95673351', '95673366', '95673380', '95673498', '95673506']
+    MRU: ['128668851', '39740575', '95565041', '95673320', '95673323', '95673351', '95673366', '95673395', '95673415', '95673456', '95673506']
+
+--- Searching initial HTML for embedded config/data ---
+
+--- Searching JS chunks for autosuggest/entity API URLs ---
+  In translation.release.a48c08577aa1e177df5b: autosuggest_destination_clear
+  In translation.release.a48c08577aa1e177df5b: autosuggest_origin_clear
+  In translation.release.a48c08577aa1e177df5b: autosuggest_results_mobile_plural
+  In translation.release.a48c08577aa1e177df5b: autosuggest_results_mobile_single
+  In translation.release.a48c08577aa1e177df5b: autosuggest_results_no-results
+  In main.ddbd3848.js: /g/banana/api/context${s}`;i.open(
+  In backpack.0aadc714.chunk.js: autosuggest__arrow
+  In backpack.0aadc714.chunk.js: autosuggest__arrow__MjYwN
+  In backpack.0aadc714.chunk.js: autosuggest__container
+  In backpack.0aadc714.chunk.js: autosuggest__container--open
+  In backpack.0aadc714.chunk.js: autosuggest__container--open__NjlmM
+  In backpack.0aadc714.chunk.js: entityId??p.id??i,d=n?`${n}-${c}`:`item-${c}`;return(0,l.jsx)(
+  In 1790.d8c63dac.chunk.js: /g/culture-data-service/dataservices/culture/cldr/v2.0/${r.toLowerCase()}/
+  In 1790.d8c63dac.chunk.js: /g/purpose-scoped-id-service/identifiers/refresh
+  In 1790.d8c63dac.chunk.js: /g/purpose-scoped-id-service/identifiers/refresh-legacy
+  In Bootstrap.f10caca5.chunk.js: autosuggest list.
+  In Bootstrap.f10caca5.chunk.js: autosuggest request fails for origin selection.
+  In Bootstrap.f10caca5.chunk.js: autosuggest results are reloaded from server.
+  In Bootstrap.f10caca5.chunk.js: autosuggested location.
+  In Bootstrap.f10caca5.chunk.js: /g/banana-tallyman/tallyman/track/interaction/beacon${u?`?OverrideCon
+  In Bootstrap.f10caca5.chunk.js: /g/content/distribution
+  In Bootstrap.f10caca5.chunk.js: /g/subscription-store/v2/subscriptions
+  In Bootstrap.f10caca5.chunk.js: /g/tagging/gtm.js?id=${a.Constants.GTM_CONTAINER_ID}`,()=>{},
+  In Bootstrap.f10caca5.chunk.js: entityId),destination_entity_id:(0,y.P)(e.destination.entityId),departure:e.depa
+  In Bootstrap.f10caca5.chunk.js: entityId),parent_id:
+  In Bootstrap.f10caca5.chunk.js: entityId:(0,$.P)(e.originEntityId),countryId:e.originCountryId},destination:{id:
+  In Bootstrap.f10caca5.chunk.js: entityId:e.originEntityId},destination:{id:e.destinationId,name:e.destinationNam
+  In Bootstrap.f10caca5.chunk.js: entityId:t,geoContainerId:r,geoId:n,travelEntityId:o}=e||{};return n||r||o||t}},
+  In Acorn-actUponFatalError.9cf774db.chunk.j: entityId:t}:{[a]:l}},w=(e,t,n,r)=>({legOrigin:M(e),legDestination:M(t),dates:C(n
+  In Acorn-actUponFatalError.9cf774db.chunk.j: entityId],destination:[e.destination.entityId]}),e.return_date&&t.push({date:(0,
+  In gtm.js?id=GTM-W8ZST32: /g/d/ccm/collect?
+  In gtm.js?id=GTM-W8ZST32: /g/d/ccm/conversion
+  In gtm.js?id=GTM-W8ZST32: /g/d/pagead/1p-conversion
+  In gtm.js?id=GTM-W8ZST32: entityId:f,securityGroups:n,originalEventData:h})||(l=!0)}catch(t){l=!0}}return 
+  In gtm.js?id=GTM-W8ZST32: entityId;c=a.securityGroups;return fG(Number(a.originalEventData[
+  In gtm.js?id=GTM-W8ZST32: entityId;if(c===
+  In 5470.eb7973a8.chunk.js: entityId),n},l=function(e){let t=arguments.length>1&&void 0!==arguments[1]?argum
+  In 5165.29aab4de.chunk.js: entityId)&&void 0!==r?r:null===e||void 0===e?void 0:e.travelEntityId)&&void 0!==
+  In 5165.29aab4de.chunk.js: entityIds:[e]}}),S=e=>{const{day:t,month:r,year:a}=(0,i.iJ)(e);return{date:{year
+  In 3293.6de0f150.chunk.js: autosuggest_destination_clear
+  In 3293.6de0f150.chunk.js: autosuggest_origin_clear
+  In 3293.6de0f150.chunk.js: autosuggest_results_mobile_plural
+  In 3293.6de0f150.chunk.js: autosuggest_results_mobile_single
+  In 3293.6de0f150.chunk.js: autosuggest_results_no-results
+  In 9862.99c296fa.chunk.js: /g/radar/api/v2/web-unified-search/
+  In 9862.99c296fa.chunk.js: entityId),legDestination:z(e.destination.entityId),dates:G(e.date),placeOfStay:n
+  In 9862.99c296fa.chunk.js: entityId:e||(0,R.P)(
+  In 9862.99c296fa.chunk.js: entityId:t}:{[o]:l}},C=(e,t,n,i)=>({legOrigin:T(e),legDestination:T(t),dates:f(n
+  In 9862.99c296fa.chunk.js: entityId?{entityId:b.entityId}:void 0,searchDestination:null!==_&&void 0!==_&&_.
+  In 9862.99c296fa.chunk.js: entityId],destination:[e.destination.entityId]}),e.return_date&&t.push({date:(0,
+  In FlightsDayView.dc58bc9d.chunk.js: /g/culture-data-service/dataservices/culture/currencies/v1.0
+  In FlightsDayView.dc58bc9d.chunk.js: /g/culture-data-service/dataservices/culture/locales/v1.0
+  In FlightsDayView.dc58bc9d.chunk.js: /g/culture-data-service/dataservices/culture/markets/v2.0
+  In FlightsDayView.dc58bc9d.chunk.js: /g/user-session-data-svc/public/v1/user-session-data
+  In FlightsDayView.dc58bc9d.chunk.js: entityId)&&!(null===p||void 0===p||null===(o=p.destination)||void 0===o||!o.enti
+  In FlightsDayView.dc58bc9d.chunk.js: entityId),n.set(
+  In FlightsDayView.dc58bc9d.chunk.js: entityId)||
+  In FlightsDayView.dc58bc9d.chunk.js: entityId:e}},destination:{location:{entityId:t}},departure:{dateTime:{year:s,mon
+  In FlightsDayView.dc58bc9d.chunk.js: entityId?(n.set(
+  In 6884.821d229c.chunk.js: autosuggest suggestions
+  In 6884.821d229c.chunk.js: autosuggest-search/api/v1/search-flight/${r}/${n}/${encodeURIComponent(e)}?${i?n
+  In 6884.821d229c.chunk.js: autosuggest-selector
+  In 6884.821d229c.chunk.js: autosuggest.TelemetryEvent
+  In 6884.821d229c.chunk.js: autosuggestExp:
+  In 6884.821d229c.chunk.js: /g/autosuggest-search/api/v1/search-flight/${r}/${n}/${encodeURIComponen
+  In 6884.821d229c.chunk.js: /g/search-intent/v1/pricecalendar
+  In 6884.821d229c.chunk.js: /g/search-intent/v1/pricecalendar/explore
+  In 6884.821d229c.chunk.js: /g/search-intent/v1/pricecalendar/month
+  In 6884.821d229c.chunk.js: entityId cannot be empty
+  In 6884.821d229c.chunk.js: entityId),t.currency&&(a=I(a,
+  In 6884.821d229c.chunk.js: entityId)??
+  In 6884.821d229c.chunk.js: entityId:r.destination.id,currency:t.currency,locale:t.locale,market:t.market,ad
+  In FlightsSearchControls.1abcc205.chunk.js: autosuggestExpVal:(0,A.H5)(C.oV.EXPERIMENT.AUTOSUGGEST_EXP),enableCalendarPrices
+  In FlightsSearchControls.1abcc205.chunk.js: entityId)||void 0===i?void 0:i.toString(),geoContainerId:null===(n=e.geoContaine
+  In DatePicker.ec577f53.chunk.js: entityId)??
+  In Banana-State.394fe17b.chunk.js: entityIds)||void 0===h?void 0:h[0];if(!v)return e;const g=(e=>{var t,o,i;const n
+  In PriceAlertSignupButton.43f0ff2e.chunk.js: /g/subscription-store/v2/subscriptions
+  In PriceAlertSignupButton.43f0ff2e.chunk.js: /g/traveller-auth-service/`}};return new i.Ay(e,t)}return new i.Ay(e)},o=e=>
