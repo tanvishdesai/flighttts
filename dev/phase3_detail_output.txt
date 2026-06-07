@@ -1,0 +1,102 @@
+﻿================================================================================
+PRECISE ENTITY ID MAPPINGS FROM FLIGHT RESULTS
+================================================================================
+
+Total unique entity IDs found: 30
+
+entityId        IATA     Type       Name                      Country        
+---------------------------------------------------------------------------
+  27536215        NBOA     City       Nairobi                                  
+  27536554        IAMD     City       Ahmedabad                                
+  27539471        IBLR     City       Bengaluru                                
+  27539520        IBOM     City       Mumbai                                   
+  27539733        PARI     City       Paris                                    
+  27539908        CPTA     City       Cape Town                                
+  27540706        IDEL     City       New Delhi                                
+  27540785        DOHA     City       Doha                                     
+  27540839        DXBA     City       Dubai                                    
+  27541777        JNBA     City       Johannesburg                             
+  27542903        ISTA     City       Istanbul                                 
+  27543923        KULM     City       Kuala Lumpur                             
+  27546111        SINS     City       Singapore                                
+  39740575        MRUB     City       Port Louis                               
+  81977372        IPNQ     City       Pune                                     
+  95565041        CDG      Airport    Paris Charles de Gaulle   France         
+  95673320        BOM      Airport    Mumbai                    India          
+  95673323        IST      Airport    Istanbul                  Tⁿrkiye (Turkey)
+  95673351        BLR      Airport    Bengaluru                 India          
+  95673366        AMD      Airport    Ahmedabad                 India          
+  95673375        SIN      Airport    Singapore Changi          Singapore      
+  95673380        CPT      Airport    Cape Town                 South Africa   
+  95673395        NBO      Airport    Nairobi Jomo Kenyatta     Kenya          
+  95673415        JNB      Airport    Johannesburg O.R. Tambo   South Africa   
+  95673456        KUL      Airport    Kuala Lumpur International Malaysia       
+  95673498        DEL      Airport    Delhi Indira Gandhi International India          
+  95673506        DXB      Airport    Dubai                     United Arab Emirates
+  95673852        DOH      Airport    Hamad International       Qatar          
+  128668851       MRU      Airport    Mauritius                 Mauritius      
+  128668941       PNQ      Airport    Pune                      India          
+
+
+================================================================================
+AUTOSUGGEST API PATTERN FROM JS
+================================================================================
+
+  From: 6884.821d229c.chunk.js
+  Context: egionId:e.RegionId}),x=async(e,t,a)=>{if(e.length>E)throw b;const{locale:n,market:r,platform:s,queryStringParams:i,screenName:l,utid:o,xSkyscannerClient:c}=t,d=`${a?"":"https://www.skyscanner.net"}/g/autosuggest-search/api/v1/search-flight/${r}/${n}/${encodeURIComponent(e)}?${i?new URLSearchParams(Object.entries(i).map(e=>{let[t,a]=e;return[t,String(a)]})):""}`;try{const e=await fetch(d,{headers:{Accept:"application/json",Platform:s,"Skyscanner-UTID":o||"",PageType:l,"Skyscanner-Client-Name":c},
+
+
+================================================================================
+IATA CODE USAGE IN PRICE CALENDAR
+================================================================================
+
+  Body: {"headers":{"xSkyscannerClient":"acorn","xSkyscannerCurrency":"INR","xSkyscannerLocale":"en-GB","xSkyscannerMarket":"IN"},"originRelevantFlightSkyId":"AMD","destinationRelevantFlightSkyId":"MRU"}
+
+  Body: {"headers":{"xSkyscannerClient":"acorn","xSkyscannerCurrency":"INR","xSkyscannerLocale":"en-GB","xSkyscannerMarket":"IN"},"originId":"95673366","destinationId":"128668851","isDirect":false,"tripType":"TRIP_TYPE_RETURN"}
+
+
+================================================================================
+HTML PAGE - EMBEDDED FLIGHT CONFIG/DATA
+================================================================================
+  Pattern: "originEntityId":\s*"(\d+)"
+    Match: 95673366
+    Match: 128668851
+  Pattern: "destinationEntityId":\s*"(\d+)"
+    Match: 128668851
+    Match: 95673366
+  Pattern: "origin":\s*\{[^}]*"entityId":\s*"(\d+)"
+    Match: 95673366
+    Match: 95673366
+  Pattern: "origin":\s*\{[^}]*?"id":\s*"(\w+)"
+    Match: AMD
+    Match: AMD
+
+
+================================================================================
+PRICING OPTION DETAIL (booking links)
+================================================================================
+
+  First itinerary pricingOptions:
+    {
+  "agentIds": [
+    "ingo"
+  ],
+  "price": {
+    "updateStatus": "current",
+    "amount": 69766.94
+  },
+  "items": [
+    {
+      "price": {
+        "updateStatus": "current",
+        "amount": 69766.94
+      },
+      "segmentIds": [
+        "9436-10002-2607102245-2607110110--32213",
+        "10002-14325-2607110415-2607110830--32213",
+        "14325-10002-2607180930-2607181705--32213",
+        "10002-9436-2607182000-2607182210--32213"
+      ],
+      "bookingProposition": "PBOOK",
+      "agentId": "ingo",
+      "url": "/transport_deeplink/4.0/IN/en-GB/INR/ingo/2/9436.14325.2026-07-10,14325.9436.2026-07-18/air/airli/flights?itinerary=flight|-32213|996|9436|2026-07-10T22:45|10002|2026-07-11T01:10|145|-|-|N;flight|-32213|1861|10002|2026-07-11T04:15|14325|2026-07-11T08:30|345|-|-|N,flight|-322

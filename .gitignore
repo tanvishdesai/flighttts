@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# Optimizer run artifacts (large JSON checkpoints)
+results/checkpoint_*.json
+results/best_itineraries_*.json
+results/best_itineraries_*.csv
+results/flights_*.json
+results/flights_*.csv
+
+# Keep price history tracked if small; ignore if it grows huge
+# results/price_history.json
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# HAR captures (large binary)
+*.har

@@ -1,0 +1,596 @@
+﻿================================================================================
+PART A: JWT SESSION TOKEN DECODE
+================================================================================
+
+  Header: {
+  "alg": "RS256",
+  "kid": "session-service-key-2026-03",
+  "typ": "JWT"
+}
+
+  Payload: {
+  "https://skyscanner.net/session_id": "019e97be-cb3f-8003-ae73-5f8d35059621",
+  "https://skyscanner.net/started_at": 1780662324,
+  "sid": "019e97be-cb3f-8003-ae73-5f8d35059621",
+  "crt": 1780662324,
+  "exp": 1780664245,
+  "iat": 1780662445
+}
+
+
+================================================================================
+PART B: ANTI-BOT / PERIMETERX / RECAPTCHA REQUESTS
+================================================================================
+
+  [GET] 200 |   246697B | application/javascript         | https://www.skyscanner.co.in/rf8vapwA/init.js
+    Response (246697 chars): // @license Copyright (C) 2012-2026 HUMAN Security, Inc (www.humansecurity.com). Content of this file can not be copied and/or distributed.
+(function(){try{window._pxAppId = "PXrf8vapwA";function gC(t){for(var n=""+(t||""),e=n.length,r=[],i=0,o=0,c=-1,g=0;g<e;g++){var a='s&1A?kOFB9y%zJ5!C`ILt~fi#*eP
+
+  [GET] 200 |      176B | text/html                      | https://tzm.px-cloud.net/ns?c=f5e325b0-60d9-11f1-8238-b3e7f90558b6
+    Response (176 chars): M73r9i7pzuNOqbdx7fZMooPZlNQ4E7iF5pKU6ok_NDm-U58nHKlAcVijnBUofFK3a__-OPzpyljVE5a3SKffYu0rUGYNd17964JX3v-uxsrDREs0j2A3NF5GY_SjExsxU8XqEEbP8x5UD0sCvhD0PKMHF9H2sekuB1aYeYQ1YhAf0A==
+
+  [POST] 200 |      792B | application/json               | https://www.skyscanner.co.in/rf8vapwA/xhr/api/v2/collector
+    Body: payload=aUkQRhAIEHtxVmd4X2R4alp3DxAeEFYQCEkQanV8XWtaXX5QA2cPEAgQWkZGQkEIHR1FRUUcQVlLQVFTXFxXQBxRXRxbXB1GQFNcQUJdQEYdVF5bVVpGQR1TX1YdX0BHHQAEAgUDAh0ABAIFAwodDVNWR15GQUQADwMUUVNQW1xRXlNBQQ9XUV1cXV9LFFFaW15WQFdcRAAPFEBXVA9aXV9XFEBGXA8DFEJAV1RXQFZbQFdRRkEPVFNeQVcUXUdGUF1HXFZTXkZBV1xTUF5XVg9UU15BVxRbXFBdR1xWU15GQVdcU1BeV1YPVFNeQVcQHhBoA0pmamF7RWd1VQ8QCAIeEHd0UVl0XmcLe1tFDxAIEGVbXAEAEB4QdkhgBVZnXmZXd2cPEAgCHhB4ZF1gZQB/SnR1WQ8QCAUBAh4Qc2VoA3gCY3lRWgIPEAgBBAICHhBhXnQZd3NFClZhUQ8QCAMFCgIEBAAGBAUGBAseEHNl
+    Response (792 chars): {"do":null,"ob":"KCgoKSkoZXpsZ2dnZygpKSkoKWUoKS0tLSkoKSEqLSEvIC0tLiksKWdnZ2cpKCgoKSgpKWUoLiEpLy8rLS8sIS8gZ2dnZykoKSgpKWV9IXF6KH57aHd1KWouKn9qfWt6fmdnZ2cpKCgoKSkoKGUrICwhZ2dnZykoKCkoKCgoZXgpfykqfS8gNC8pfSA0KCh/KDQhKiovNC17LSx7eyF8eCh7fGV/eHVqfGdnZ2coKCkpKShleiwqLCl/LC4gfHogICAvLix6KSAtLSotKikpLnoqKCA
+
+  [GET] 200 |    16755B | text/css                       | https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap
+    Response (16755 chars): /* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3GUBGEe.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A,
+
+  [GET] 200 |     7002B | text/css                       | https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap
+    Response (7002 chars): /* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa2JL7SUc.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF,
+
+  [HEAD] 200 |        0B | application/javascript         | https://www.skyscanner.co.in/rf8vapwA/init.js
+
+  [GET] 200 |      788B | text/html                      | https://js.px-cloud.net/?t=d-m3nshgfas-1780662468306&v=8a486060-44c7-11f1-9990-66581ff0773b
+    Response (788 chars): <html><head><link rel="shortcut icon" href="data:,"></head><body><script>(function(){try{var p=new URLSearchParams(location.search),t=p.get('t');if(!t||t.indexOf('d-')!==0)return;var v=p.get('v')||'',a=p.get('a')||'',h=p.get('h')||'',e=encodeURIComponent,n=false;try{n=self===top}catch(x){n=false}if(
+
+  [POST] 200 |      716B | application/json               | https://www.skyscanner.co.in/rf8vapwA/xhr/api/v2/collector
+    Body: payload=aUkQRhAIEHRxQVV5XnhzeVpVDxAeEFYQCEkQe1xeZVd1Y2ZkWUEPEAgDBQoCBAQABgQHCgQLHhBQen9rUVtdU3UCdw8QCBADAgYGBgIDAgoBBgoECwYGBQIHAhAeEAgJDQ0NCQgJAQoNAQ8ADQ0OCQwJEAgQCQgMDAwICQgACwwADgEMDA8IDQgQHhBzZWgDeAJjf1FKdw8QCAALBwoeEH1hBnxQAUp1dl4CDxAIaRB6aAYQbx4QcXQKCnpZBgJiS2MPEAgQBgtXBwIKBlcQHhBWS0p2UGZ0dWBkAg8QCBAFUQdUCwUABhAeEFF6UXdWWGdQcFlFDxAIEAQHVgoABFcCEB4Qdmp4B38CVWtRVXMPEAgQUwsABAtXAgIQHhBoWAJhYnFwZ3VjBg8QCBAHAlMHV1EHBxAeEH8AVXp5amtzc1pZDxAIEAUBUwJUUAAEEB4QdlpnBGR3RgtiAHsPEAhGQEdXHhB2dH8Gd1lZBWJh
+    Response (716 chars): {"do":null,"ob":"KCgoKSkoZXpsZ2dnZykoKCkoKSgoZX8tIGhqa0FoTkopLEtqLmNTSkthSH52KXxAQG57S3BJTk12K354QFcpbHIkI3FAQV02L3ZYTmBSSlVfIC5sW3dfXnB4XShKIHd+Y3hfXihYbXJgdStLSCtNLCx+cUt2YVpKTEgqSy5sU2hBSVFvX01jc1ZrSFxMLFdQVS1cVGNcU1BVfFdJS3JpWEhJfypNSCtRNG9gaWlzLi9LcmAuUmApeCguK0hWIG5KLnggcilaW1hcck5jLVBTUyp0L0M
+
+  [POST] 200 |       32B | application/json               | https://www.skyscanner.co.in/rf8vapwA/xhr/api/v2/collector
+    Body: payload=aUkQRhAIEGBeA0t6c3MEVnEKDxAeEFYQCEkQUWBodHRIYARgcQIPEAgQaW4QZktCV3dAQF1ACBJxU1xcXUYSQFdTVhJCQF1CV0BGW1dBEl1UElxHXl4SU0YSX3ASU0YSemZ/fnZdUUdfV1xGHFVXRndeV19XXEZwS3tWElNGElpGRkJBCB0dWEEcQVlLQVFcQBxRXV8dQUZGUR1QU1xTXFMdQUZTRltRHVhBHWFGQFdEVlNgR1xGW19XHAFRAgFTUQBUHFFaR1xZHFhBCAMIBgcGAAoSU0YSc0BAU0scX1NCElNGEn1QWFdRRhwOU1xdXEtfXUdBDBJTRhJaRkZCQQgdHVhBHEFZS0FRXEAcUV1fHUFGRlEdUFNcU1xTHUFGU0ZbUR1YQR1hRkBXRFZTYEdcRltfVxwBUQIBU1EAVBxRWkdcWRxYQQgDCAYBAAIGElNGEn1QWFdRRhxcV0pGElNGElpGRkJBCB0dWEEcQVlL
+    Response (32 chars): {"do":null,"ob":"KCgoKSkoZXps"}
+
+
+  [POST] 200 |      376B | application/json               | https://www.skyscanner.co.in/rf8vapwA/xhr/api/v2/collector
+    Body: payload=aUkQRhAIEHVFcERzZAdDUHZRDxAeEFYQCEkQeEpFZnpldAJ1cQoPEAgQVAdXAQAHUAIfBAJWCx8DA1QDHwoAAQofUAFXBVQLAgcHClAEEB4QVlUCcWZ2cEBzalkPEAgHBhwHHhB5XHRXUXVFUWpZQQ8QCAEABBwEAgICAgICAgoLBgIFHhB1cQpBfl4He35wWQ8QCBBUU0FGXksQHhBxWncZZ3cLB311QQ8QCBBwfX8QHhB8WQNxdnp/WWNmVQ8QCBBVUUFQEB4QdkhgBVZnXmZXd2cPEAgGHhB4ZF1gZQB/SnR1WQ8QCAcEAgseEHNlaAN4AmN5VFpnDxAIAwUKAgQEAAYFAQABBx4QU3oKUVRbBmR0WV0PEAgQVAdXAQAHUAIfBAJWCx8DA1QDHwoAAQofUAFXBVQLAgcHClAEEB4Qd3RRWXReZwp7YXMPEAgQfwUBQAtbBUJIR3x9Q1BWSgVUaH9dXWJoXnxjBncFW3QH
+    Response (376 chars): {"do":null,"ob":"KCgoKSkoZXpsZ2dnZykoKCkoKSgoZX8tIGhqa0FoTkopLEtqLmNTSkthSH52KXxAQG57S3BJTk12K354QFcpbHIkI3FAQV02L3ZYTmBSSlVfIC5sW3dfXnB4XShKIHd+Y3hfXihYbXJgdStLSCtNLCx+cUt2YVpKTEgqSy5sU2hBSVFvX01jc1ZrSFxMLFdQVS1cVGNcU1BVfFdJS3JpWEhJfypNSCtRNG9gaWlzLi9LcmAuUmApeCguK0hWIG5KLnggcilaW1hcck5jLVBTUyp0L0M
+
+  [GET] 200 |    75786B | application/json               | https://fastlane.rubiconproject.com/a/api/fastlane.json?account_id=16232&site_id=545522&zone_id=3394672%3B3819816%3B3394666%3B3394678&size_id=2%3B15%3B15%3B15&alt_size_ids=%3B10%3B10%3B10&gdpr=0&eid_p
+    Response (75786 chars): {"status":"ok","account_id":16232,"site_id":545522,"zone_id":3394672,"tracking":"","inventory":{"ref":"https:\/\/www.skyscanner.co.in\/","placement":"\/24268069\/skyscanner.co.in\/flights_funnel\/day_view\/leaderboard","pbadslot":"%2F24268069%2Fskyscanner.co.in%2Fflights_funnel%2Fday_view%2Fleaderbo
+
+  [GET] 200 |   237935B | text/plain                     | https://securepubads.g.doubleclick.net/gampad/ads?pvsid=5211943409390752&correlator=2902628321730919&eid=31098755%2C31098907%2C31098926%2C31061691%2C31061693&output=ldjh&gdfp_req=1&vrg=202606020101&pt
+    Response (237929 chars): {"/24268069/skyscanner.co.in/flights_funnel/day_view/top":["html",1,null,null,1,600,300,0,0,null,null,1,1,[["ID=4e210152f343d4e7:T=1780662474:RT=1780662474:S=ALNI_MYN3BG2NB0jJv43vPN3IDE6HojaCg",1814358474,"/","skyscanner.co.in",1]],[138558712010],[7313500495],[17215749],[4042620194],null,null,null,n
+
+  [GET] 200 |      829B | text/html                      | https://www.google.com/recaptcha/api2/aframe
+    Response (829 chars): <!DOCTYPE HTML><html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"></head><body><script nonce="y1ToULxLpdWmbudgdOyv2g">/** Anti-fraud and anti-abuse applications only. See google.com/recaptcha */ try{var clients={'sodar':'https://pagead2.googlesyndication.com/pagead/sodar?
+
+  [GET] 200 |    10774B | text/css                       | https://fonts.googleapis.com/css?family=Roboto:400,700&lang=en
+    Response (10774 chars): /* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  src: url(https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3GUBGEe.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, 
+
+  [GET] 200 |     5548B | text/css                       | https://fonts.googleapis.com/css?family=Roboto
+    Response (5548 chars): /* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  src: url(https://fonts.gstatic.com/s/roboto/v51/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbVmZiArmlw.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+2
+
+  [GET] 200 |    43136B | font/woff2                     | https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2
+    Response (57516 chars): d09GMgABAAAAAKiAABYAAAABO9gAAKgIAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGoYdG+A8HJA6P0hWQVKGBQZgP1NUQVSBTicuAINCCIF+CZ8GL34RDAqBzmCBtmkLhVgAMIHebAE2AiQDiywEIAWJVgcgDIVOW4IrcYI5x0l1ldsGACzV3a13WgkbXL2h8ya3PzHFsJNxC+9upS8KJvWi//8/MamMoUnd0gIAour0+2xBllxO4QFFUi4ZuapBAfWKmjNyIsEdSSRfNLAWnrFF2TkhjMNzx06BQp0dddk8
+
+  [GET] 204 |        0B | text/plain                     | https://skyscanner-pbs.relevant-digital.com/analytics?param={%22cmd%22:%22updates%22,%22systemId%22:83,%22id%22:%2297c11ab439d3d01d%22,%22diffs%22:[{%22bidIdx%22:0,%22flags%22:32812,%22responseMs%22:2
+
+
+================================================================================
+PART C: MICHELIN SEARCH ENDPOINT
+================================================================================
+
+  [POST] 200 | 18237B | https://www.skyscanner.co.in/g/michelin/api/search/v1
+
+  Request Headers:
+    :authority: www.skyscanner.co.in
+    :method: POST
+    :path: /g/michelin/api/search/v1
+    :scheme: https
+    accept: */*
+    accept-encoding: gzip, deflate, br, zstd
+    accept-language: en-GB,en-US;q=0.9,en;q=0.8,hi;q=0.7
+    content-length: 640
+    content-type: text/plain;charset=UTF-8
+    origin: https://www.skyscanner.co.in
+    priority: u=1, i
+    referer: https://www.skyscanner.co.in/transport/flights/amd/mru/260710/260718/?adultsv2=1&cabinclass=economy&childrenv2=&ref=home&rtn=1&preferdirects=false&outboundaltsenabled=false&inboundaltsenabled=false
+    sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+    sec-ch-ua-mobile: ?0
+    sec-ch-ua-model: ""
+    sec-ch-ua-platform: "Windows"
+    sec-fetch-dest: empty
+    sec-fetch-mode: cors
+    sec-fetch-site: same-origin
+    user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+
+  Request Body:
+    {"pageType":"PAGE_TYPE_UNSPECIFIED","requestContext":{"localisationContext":{"locale":"en-GB","market":"IN","currencyCode":"INR"},"platform":"PLATFORM_WEB"},"trip":{"adults":1,"cabinClass":"CABIN_CLASS_ECONOMY","tripSegments":[{"origins":{"locations":{"entityIds":["95673366"]}},"destinations":{"locations":{"entityIds":["128668851"]}},"dates":{"date":{"year":2026,"month":7,"day":10}},"placeOfStay":"39740575"},{"origins":{"locations":{"entityIds":["128668851"]}},"destinations":{"locations":{"entityIds":["95673366"]}},"dates":{"date":{"year":2026,"month":7,"day":18}},"placeOfStay":"39740575"}]},"hotelFilter":"HOTEL_FILTER_COMMON_BEST"}
+
+  Response structure:
+    Top keys: ['sections', 'pollingSession', 'verticals']
+    'sections': list of 2
+      First item: ['context', 'accommodations']
+    'pollingSession': dict keys: ['token', 'complete']
+    'verticals': list of 2
+
+  [POST] 200 | 3102B | https://www.skyscanner.co.in/g/michelin/api/search/v1
+
+  Request Headers:
+    :authority: www.skyscanner.co.in
+    :method: POST
+    :path: /g/michelin/api/search/v1
+    :scheme: https
+    accept: */*
+    accept-encoding: gzip, deflate, br, zstd
+    accept-language: en-GB,en-US;q=0.9,en;q=0.8,hi;q=0.7
+    content-length: 290
+    content-type: text/plain;charset=UTF-8
+    origin: https://www.skyscanner.co.in
+    priority: u=1, i
+    referer: https://www.skyscanner.co.in/transport/flights/amd/mru/260710/260718/?adultsv2=1&cabinclass=economy&childrenv2=&ref=home&rtn=1&preferdirects=false&outboundaltsenabled=false&inboundaltsenabled=false
+    sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+    sec-ch-ua-mobile: ?0
+    sec-ch-ua-model: ""
+    sec-ch-ua-platform: "Windows"
+    sec-fetch-dest: empty
+    sec-fetch-mode: cors
+    sec-fetch-site: same-origin
+    user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+
+  Request Body:
+    {"pageType":"PAGE_TYPE_UNSPECIFIED","pollingSessionToken":"KLUv_SCaFQQAMkkeHcDrD__d_0ej79OklMJf-ZctciftSKrbEQHi1L0CjxMg7t1H8GG31xp9n7o3W6NcXGP8XppHkCRNSgEYAPGS3XzsHaOrXLjR9lFrL23qkzu3OZMwhXEhDM7YqqirIgKiTQln_NbMNlPuc7vt7uHyM_MgHyxhWgTDsgEAo85UFA==","hotelFilter":"HOTEL_FILTER_COMMON_BEST"}
+
+  Response structure:
+    Top keys: ['sections', 'pollingSession', 'verticals']
+    'sections': list of 2
+      First item: ['context', 'accommodations']
+    'pollingSession': dict keys: ['token', 'complete']
+    'verticals': list of 0
+
+
+================================================================================
+PART D: PRICE INSIGHTS / PRICE BANDS ENDPOINT
+================================================================================
+
+  [POST] 200 | 4775B | https://www.skyscanner.co.in/g/search-intent/v1/pricecalendar
+
+  Request Body:
+    {"headers":{"xSkyscannerClient":"acorn","xSkyscannerCurrency":"INR","xSkyscannerLocale":"en-GB","xSkyscannerMarket":"IN"},"originRelevantFlightSkyId":"AMD","destinationRelevantFlightSkyId":"MRU"}
+
+  Response:
+    {
+  "flights": {
+    "noPriceLabel": "No price information",
+    "groups": [
+      {
+        "id": "low",
+        "label": "\u00a3"
+      },
+      {
+        "id": "medium",
+        "label": "\u00a3\u00a3"
+      },
+      {
+        "id": "high",
+        "label": "\u00a3\u00a3\u00a3"
+      }
+    ],
+    "days": [
+      {
+        "day": "2026-06-05",
+        "group": "high",
+        "price": 38260.02
+      },
+      {
+        "day": "2026-06-06",
+        "group": "high",
+        "price": 41231.45
+      },
+      {
+        "day": "2026-06-07",
+        "group": "high",
+        "price": 37351.56
+      },
+      {
+        "day": "2026-06-08",
+        "group": "high",
+        "price": 38759.9
+      },
+      {
+        "day": "2026-06-09",
+        "group": "high",
+        "price": 38260.02
+      },
+      {
+        "day": "2026-06-10",
+        "group": "high",
+        "price": 38739.86
+      },
+      {
+        "day": "2026-06-11",
+        "group": "high",
+        "price": 38016.21
+      },
+      {
+        "day": "2026-06-12",
+        "group": "high",
+        "price": 38035.13
+      },
+      {
+        "day": "2026-06-13",
+        "group": "high",
+        "price": 46115.54
+      },
+      {
+        "day": "2026-06-14",
+        "group": "high",
+        "price": 38027.34
+      },
+      {
+        "day": "2026-06-15",
+        "group": "high",
+        "price": 39937.78
+      },
+      {
+        "day": "2026-06-16",
+        "group": "high",
+        "price": 36549.98
+      },
+      {
+        "day": "20
+
+  [POST] 200 | 1863B | https://www.skyscanner.co.in/g/search-intent/v1/pricecalendar/month
+
+  Request Body:
+    {"headers":{"xSkyscannerClient":"acorn","xSkyscannerCurrency":"INR","xSkyscannerLocale":"en-GB","xSkyscannerMarket":"IN"},"originId":"95673366","destinationId":"128668851","isDirect":false,"tripType":"TRIP_TYPE_RETURN"}
+
+  Response:
+    {
+  "flightPricesPerMonth": [
+    {
+      "month": {
+        "year": 2026,
+        "month": 6,
+        "day": 0
+      },
+      "price": {
+        "currencyCode": "INR",
+        "amount": "57506",
+        "unit": "UNIT_WHOLE"
+      },
+      "priceCategory": "PRICE_CATEGORY_LOW"
+    },
+    {
+      "month": {
+        "year": 2026,
+        "month": 7,
+        "day": 0
+      },
+      "price": {
+        "currencyCode": "INR",
+        "amount": "55484",
+        "unit": "UNIT_WHOLE"
+      },
+      "priceCategory": "PRICE_CATEGORY_LOW"
+    },
+    {
+      "month": {
+        "year": 2026,
+        "month": 8,
+        "day": 0
+      },
+      "price": {
+        "currencyCode": "INR",
+        "amount": "54224",
+        "unit": "UNIT_WHOLE"
+      },
+      "priceCategory": "PRICE_CATEGORY_LOWEST"
+    },
+    {
+      "month": {
+        "year": 2026,
+        "month": 9,
+        "day": 0
+      },
+      "price": {
+        "currencyCode": "INR",
+        "amount": "54224",
+        "unit": "UNIT_WHOLE"
+      },
+      "priceCategory": "PRICE_CATEGORY_LOWEST"
+    },
+    {
+      "month": {
+        "year": 2026,
+        "month": 10,
+        "day": 0
+      },
+      "price": {
+        "currencyCode": "INR",
+        "amount": "58612",
+        "unit": "UNIT_WHOLE"
+      },
+      "priceCategory": "PRICE_CATEGORY_UNSPECIFIED"
+    },
+    {
+      "month": {
+        "year": 2026,
+        "month": 11,
+        "day": 0
+      },
+      "price": {
+        "currencyCode": "INR",
+        "amount": "58555",
+        "unit
+
+  [POST] 200 | 532B | https://www.skyscanner.co.in/g/price-insights/api/v2/search/price-bands
+
+  Request Body:
+    {"requestContext":{"culture":{"market":"IN","currencyCode":"INR"}},"intent":{"transport":[{"origin":{"location":{"entityId":"95673366"}},"destination":{"location":{"entityId":"128668851"}},"departure":{"dateTime":{"year":2026,"month":7,"day":10}}},{"origin":{"location":{"entityId":"128668851"}},"destination":{"location":{"entityId":"95673366"}},"departure":{"dateTime":{"year":2026,"month":7,"day":18}}}]},"verticalOptions":[{"flightOptions":{"cabinClass":"CABIN_CLASS_ECONOMY"}}]}
+
+  Response:
+    {
+  "degradationReasons": [],
+  "priceBands": [
+    {
+      "vertical": "VERTICAL_FLIGHT",
+      "pOutlierLow": {
+        "currencyCode": "INR",
+        "amount": "4401051",
+        "unit": "UNIT_CENTI"
+      },
+      "pLow": {
+        "currencyCode": "INR",
+        "amount": "5186033",
+        "unit": "UNIT_CENTI"
+      },
+      "pHigh": {
+        "currencyCode": "INR",
+        "amount": "6562970",
+        "unit": "UNIT_CENTI"
+      },
+      "pOutlierHigh": {
+        "currencyCode": "INR",
+        "amount": "10050353",
+        "unit": "UNIT_CENTI"
+      },
+      "percentileValueLow": 20,
+      "percentileValueHigh": 80,
+      "aggregationPeriod": {
+        "season": "SEASON_SUMMER"
+      },
+      "pMedian": {
+        "currencyCode": "INR",
+        "amount": "5662170",
+        "unit": "UNIT_CENTI"
+      }
+    }
+  ]
+}
+
+
+================================================================================
+PART E: ARS / AD REQUEST ENDPOINT
+================================================================================
+
+  [POST] 200 | 5385B | https://www.skyscanner.co.in/g/ars/public/api/v2/request
+
+  Request Body:
+    {"id_placements":{"adslot-6d1ba03c-a62c-4ab2-ab90-f85aa819d4cd":"desktop.flights.dayview/top","adslot-baa5d2de-4a6c-4094-9653-d25b9de30a0b":"desktop.flights.dayview/cross_sell_top","adslot-4c26c83d-d00f-4c82-8904-577922447a3a":"desktop.flights.dayview/bottom","adslot-0e6ad5f8-44d0-4aed-99cb-6f1ff17fc944":"desktop.flights.dayview/cross_sell_bottom","adslot-0b2727b7-6218-4f3a-bc38-894ba96b00c1":"desktop.flights.dayview/tertiary"},"targeting":{"culture_settings":{"country":"IN","currency":"INR","locale":"en-GB"},"os":"windows","page_type":"flights.dayview","cabin_class":"ECONOMY","passengers":{"adult_count":1,"child_count":0,"infant_count":0},"origin":{"airport":{"location_attribute":{"location_attribute_encoding":"IATA","location_id":"AMD","location_name":"Ahmedabad"}},"city":{"location_attribute":{"location_attribute_encoding":"IATA","location_id":"IAMD","location_name":"Ahmedabad"}},"country":{"location_attribute":{"location_attribute_encoding":"IATA","location_id":"IN","location_name":"IN"}}},"destination":{"airport":{"location_attribute":{"location_attribute_encoding":"IATA","location_id":"MRU","location_name":"Mauritius"}},"city":{"location_attribute":{"location_attribute_encoding":"IATA","location_id":"MRUB","location_name":"Port Louis"}},"country":{"location_attribute":{"location_attribute_encoding":"IATA","location_id":"MU","location_name":"MU"}}},"itinerary_type":"ROUND","search_start_timestamp":{"unix_time_millis":1783621800000,"date_time_kind":"DAY","timezone_offset_mins":-330,"daylight_savings_offset_mins":0},"search_end_timestamp":{"unix_time_millis":1784313000000,"date_time_kind":"DAY","timezone_offset_mins":-330,"daylight_savings_offset_mins":0},"duration":8},"user_features":{"request_id":"e3842c0f-cf5c-4180-bc22-b604f5523e5e","is_new_user":false,"client":{"browser_name":"Chrome","is_browser":true,"is_mobilephone":false,"is_tablet":false,"display_height":864,"display_width":1536,"referrer_url":"www.skyscanner.co.in"},"is_optedin_for_personalised":true,"
+
+
+================================================================================
+PART F: SAMPLE ITINERARY FROM FIRST POPULATED RESPONSE
+================================================================================
+
+  First itinerary result:
+    {
+  "id": "9436-2607102245--32213-1-14325-2607110830|14325-2607180930--32213-1-9436-2607182210",
+  "price": {
+    "raw": 69766.94,
+    "formatted": "\u20b969,767",
+    "pricingOptionId": "JuFMrLK1iY2-"
+  },
+  "legs": [
+    {
+      "id": "9436-2607102245--32213-1-14325-2607110830",
+      "origin": {
+        "id": "AMD",
+        "entityId": "95673366",
+        "name": "Ahmedabad",
+        "displayCode": "AMD",
+        "city": "Ahmedabad",
+        "country": "India",
+        "isHighlighted": false
+      },
+      "destination": {
+        "id": "MRU",
+        "entityId": "128668851",
+        "name": "Mauritius",
+        "displayCode": "MRU",
+        "city": "Port Louis",
+        "country": "Mauritius",
+        "isHighlighted": false
+      },
+      "durationInMinutes": 675,
+      "stopCount": 1,
+      "isSmallestStops": false,
+      "departure": "2026-07-10T22:45:00",
+      "arrival": "2026-07-11T08:30:00",
+      "timeDeltaInDays": 1,
+      "carriers": {
+        "marketing": [
+          {
+            "id": -32213,
+            "alternateId": "49",
+            "logoUrl": "https://logos.skyscnr.com/images/airlines/favicon/49.png",
+            "name": "IndiGo"
+          }
+        ],
+        "operationType": "fully_operated"
+      },
+      "segments": [
+        {
+          "id": "9436-10002-2607102245-2607110110--32213",
+          "origin": {
+            "entityId": "95673366",
+            "flightPlaceId": "AMD",
+            "displayCode": "AMD",
+            "parent": {
+              "entityId": "27536554",
+              "flightPlaceId": "IAMD",
+              "displayCode": "AMD",
+              "name": "Ahmedabad",
+              "type": "City"
+            },
+            "name": "Ahmedabad",
+            "type": "Airport",
+            "country": "India",
+            "countryId": "IN"
+          },
+          "destination": {
+            "entityId": "95673351",
+            "flightPlaceId": "BLR",
+            "displayCode": "BLR",
+            "parent": {
+              "entityId": "27539471",
+              "flightPlaceId": "IBLR",
+              "displayCode": "BLR",
+              "name": "Bengaluru",
+              "type": "City"
+            },
+            "name": "Bengaluru",
+            "type": "Airport",
+            "country": "India",
+            "countryId": "IN"
+          },
+          "departure": "2026-07-10T22:45:00",
+          "arrival": "2026-07-11T01:10:00",
+          "durationInMinutes": 145,
+          "flightNumber": "996",
+          "marketingCarrier": {
+            "id": -32213,
+            "name": "IndiGo",
+            "alternateId": "49",
+            "allianceId": 0,
+            "displayCode": "6E"
+          },
+          "operatingCarrier": {
+            "id": -32213,
+            "name": "IndiGo",
+            "alternateId": "49",
+            "allianceId": 0,
+            "displayCode": "6E"
+          }
+        },
+        {
+          "id": "10002-14325-2607110415-2607110830--32213",
+          "origin": {
+            "entityId": "95673351",
+          
+
+  Context: {
+  "status": "incomplete",
+  "sessionId": "KLUv_SCP1QMA8ogdHcDrD__9HaoS2neSJNbu_X7dMiUpQhYx5opFBN82jxMggEFNsttJntuvMMJGHfLTqd8qOwPjlCxVlaUUgOG07NowYlf-4vonOaeu-0a_8afL_OrNznUvyREQDVzpjvH56yq9o1L8Tx-MT9nbmV9OhmeACkCIhgA="
+}
+
+  Itineraries Context: {
+  "status": "incomplete",
+  "sessionId": "60f2d7d6-4854-4f6c-87db-d0fed23db059",
+  "totalResults": 10
+}
+
+  First agent: {
+  "id": "aerp",
+  "name": "Aertrip",
+  "isCarrier": false,
+  "updateStatus": "pending",
+  "optimisedForMobile": true,
+  "rating": 3.82,
+  "feedbackCount": 1124
+}
+
+
+================================================================================
+PART G: POLLING PROGRESSION (status across requests)
+================================================================================
+  [POST] Size:       4292B | ctx.status: incomplete           | it.ctx.status: incomplete           | results:   0 | agents: 25 | sessionId: KLUv_SCLxQMAsggdHcDrD__9HaoS2nfZkpDtfzNHSpmSlJKT6sAJKn6LixIc
+  [GET] Size:      74795B | ctx.status: incomplete           | it.ctx.status: incomplete           | results:  10 | agents: 25 | sessionId: KLUv_SCP1QMA8ogdHcDrD__9HaoS2neSJNbu_X7dMiUpQhYx5opFBN82jxMg
+  [GET] Size:     361216B | ctx.status: incomplete           | it.ctx.status: incomplete           | results:  41 | agents: 25 | sessionId: KLUv_SCP5QMA8ggeHsDrD__9HaoS2nekJCJo9fNXKZNMkb1IdSCoWPS9Ak4T
+  [GET] Size:    1342119B | ctx.status: incomplete           | it.ctx.status: incomplete           | results: 156 | agents: 26 | sessionId: KLUv_SCP7QMA8kgeHsDrD__9HaoS2nekJHbt__vZUiaZRC5SHQgq1ql7BY8T
+  [GET] Size:    2434410B | ctx.status: complete             | it.ctx.status: complete             | results: 217 | agents: 27 | sessionId: KLUv_SCP7QMA8kgeHsDrD__9HaoS2nekTFLQ6udXImWSMrIg1YGgYm2_V48T
+
+
+================================================================================
+PART H: CULTURE-DATA-SERVICE RESPONSE
+================================================================================
+  Keys: ['main', 'supplemental']
+  Sample: {
+  "main": {
+    "en-GB": {
+      "dates": {
+        "timeZoneNames": {
+          "hourFormat": "+HH:mm;-HH:mm",
+          "gmtFormat": "GMT{0}",
+          "gmtZeroFormat": "GMT"
+        },
+        "calendars": {
+          "gregorian": {
+            "months": {
+              "format": {
+                "abbreviated": {
+                  "1": "Jan",
+                  "2": "Feb",
+                  "3": "Mar",
+                  "4": "Apr",
+                  "5": "May",
+                  "6": "Jun",
+                  "7": "Jul",
+                  "8": "Aug",
+                  "9": "Sep",
+                  "10": "Oct",
+                  "11": "Nov",
+                  "12": "Dec"
+                },
+                "wide": {
+                  "1": "January",
+                  "2": "February",
+                  "3": "March",
+                  "4": "April",
+                  "5": "May",
+                  "6": "June",
+                  "7": "July",
+                  "8": "August",
+             

@@ -1,0 +1,659 @@
+﻿========================================================================================================================
+PART 1: ALL UNIQUE URL PATTERNS (excluding static assets)
+========================================================================================================================
+  [ 1x] [GET ] 200 |         43B | image/gif                           | GET aax-eu.amazon-adsystem.com/s/ecm3
+  [ 1x] [GET ] 200 |        290B | text/html                           | GET aax-eu.amazon-adsystem.com/s/v3/pr
+  [ 1x] [GET ] 200 |        282B | text/html                           | GET aax-eu.amazon-adsystem.com/s/x/1c2fd14bf310b6aff649
+  [ 1x] [GET ] 200 |         43B | image/gif                           | GET ad.360yield.com/match
+  [ 1x] [GET ] 200 |     102199B | text/javascript                     | GET ad.doubleclick.net/ddm/adj/N5716.152879SKYSCANNER32/B35716443.447311734
+  [ 1x] [GET ] 200 |     102707B | text/javascript                     | GET ad.doubleclick.net/ddm/adj/N5716.152879SKYSCANNER32/B35716443.447805713
+  [ 1x] [GET ] 200 |     102362B | text/javascript                     | GET ad.doubleclick.net/ddm/adj/N5716.152879SKYSCANNER32/B35716443.447809355
+  [ 6x] [GET ] 302 |          0B | text/html                           | GET ad.doubleclick.net/ddm/trackimp/N5716.152879SKYSCANNER32/B35716443.448471339
+  [ 1x] [GET ] 200 |         68B | image/jpeg                          | GET ade.clmbtech.com/uid/sync.htm
+  [ 2x] [GET ] 200 |         42B | image/gif                           | GET ade.googlesyndication.com/ddm/activity/dc_oe=ChMI986l04zwlAMVXr9LBR2OGy3xEAAYACDv3f15
+  [ 1x] [GET ] 200 |         42B | image/gif                           | GET ade.googlesyndication.com/ddm/activity/dc_oe=ChMIrqnY1YzwlAMV2cuEAB3dwR3QEAAYACDrj_95
+  [ 2x] [GET ] 200 |         42B | image/gif                           | GET ade.googlesyndication.com/ddm/activity/dc_oe=ChMIy6Sn04zwlAMVA2-dCR2WSgSGEAAYACDij_95
+  [ 2x] [GET ] 200 |      22264B | text/html                           | GET ads.pubmatic.com/AdServer/js/user_sync.html
+  [ 1x] [GET ] 200 |         35B | image/gif                           | GET c21lg-d.media.net/log
+  [ 1x] [GET ] 200 |         41B | text/html                           | GET cm.g.doubleclick.net/partnerpixels
+  [ 3x] [GET ] 302 |          0B | text/html                           | GET cm.g.doubleclick.net/pixel
+  [ 1x] [GET ] 302 |          0B | x-unknown                           | GET creativecdn.com/cm-notify
+  [ 1x] [GET ] 200 |         23B | image/gif                           | GET criteo-sync.teads.tv/um
+  [ 1x] [GET ] 200 |         43B | image/gif                           | GET cs.media.net/cksync
+  [ 2x] [GET ] 200 |         43B | image/gif                           | GET cs.media.net/cksync.php
+  [ 1x] [GET ] 200 |         71B | application/json                    | GET cs.media.net/cst
+  [ 1x] [GET ] 200 |         42B | image/gif                           | GET d.adroll.com/cm/equativ/tp_out
+  [ 5x] [GET ] 200 |       7404B | text/html                           | GET dc64f5ee542b3891c138b01e89f63e59.safeframe.googlesyndication.com/safeframe/1-0-45/html/container.html
+  [ 1x] [GET ] 200 |         43B | image/gif                           | GET dis.criteo.com/dis/rtb/appnexus/cookiematch.aspx
+  [ 1x] [GET ] 200 |         43B | image/gif                           | GET dis.criteo.com/dis/rtb/google/cookiematch.aspx
+  [ 1x] [GET ] 302 |          0B | text/html                           | GET dmp.brand-display.com/cm/api/rubicon
+  [ 1x] [GET ] 302 |          0B | text/plain                          | GET dsp.360yield.com/dsp_match/275
+  [17x] [GET ] 200 |         43B | image/gif                           | GET dt.adsafeprotected.com/dt
+  [ 1x] [GET ] 200 |         37B | image/gif                           | GET eb2.3lift.com/xuid
+  [ 1x] [GET ] 200 |          0B | text/plain                          | GET elb.the-ozone-project.com/setuid
+  [ 1x] [GET ] 200 |      18186B | application/json                    | GET ep1.adtrafficquality.google/getconfig/sodar
+  [ 3x] [GET ] 204 |          0B | image/gif                           | GET ep1.adtrafficquality.google/pagead/gen_204
+  [ 1x] [GET ] 204 |          0B | image/                              | GET ep1.adtrafficquality.google/pagead/sodar
+  [ 1x] [GET ] 204 |          0B | text/plain                          | GET ep2.adtrafficquality.google/generate_204
+  [ 3x] [GET ] 200 |      36294B | text/html                           | GET ep2.adtrafficquality.google/sodar/Klz6NWr5.html
+  [ 1x] [GET ] 200 |      14627B | text/html                           | GET ep2.adtrafficquality.google/sodar/sodar2/254/runner.html
+  [ 1x] [GET ] 200 |        269B | text/html                           | GET eus.rubiconproject.com/usync.html
+  [ 1x] [GET ] 200 |      75786B | application/json                    | GET fastlane.rubiconproject.com/a/api/fastlane.json
+  [ 2x] [GET ] 200 |      10774B | text/css                            | GET fonts.googleapis.com/css
+  [ 3x] [GET ] 200 |       7413B | text/css                            | GET fonts.googleapis.com/css2
+  [ 2x] [GET ] 302 |          0B | image/gif                           | GET googleads.g.doubleclick.net/pagead/viewthroughconversion/1038637144/
+  [ 6x] [GET ] 200 |          0B | image/gif                           | GET googleads4.g.doubleclick.net/pcs/view
+  [ 1x] [GET ]   0 |          0B | x-unknown                           | GET gum.criteo.com/sid/json
+  [ 1x] [GET ]   0 |          0B | x-unknown                           | GET gum.criteo.com/sync
+  [ 1x] [GET ] 200 |        422B | application/json                    | GET gumi.criteo.com/sid/json
+  [ 1x] [GET ] 200 |      12663B | text/html                           | GET gumi.criteo.com/syncframe
+  [ 1x] [GET ] 200 |      37388B | text/html                           | GET hb.trustedstack.com/checksync.php
+  [ 1x] [GET ] 200 |         68B | application/json                    | GET hb.trustedstack.com/cst
+  [ 1x] [GET ] 200 |      40237B | text/html                           | GET hbx.media.net/checksync.php
+  [ 1x] [GET ] 302 |          0B | text/html                           | GET ib.adnxs.com/getuid
+  [ 1x] [GET ] 200 |         43B | image/gif                           | GET ib.adnxs.com/setuid
+  [ 1x] [GET ] 200 |         47B | text/html                           | GET image6.pubmatic.com/AdServer/PugMaster
+  [ 1x] [GET ] 200 |         43B | image/gif                           | GET jadserve.postrelease.com/suid/101966
+  [ 1x] [GET ] 200 |       2920B | text/html                           | GET js-sec.indexww.com/um/ixmatch.html
+  [ 1x] [GET ] 200 |        788B | text/html                           | GET js.px-cloud.net/
+  [ 1x] [GET ] 200 |         35B | image/gif                           | GET lg1.hb.trustedstack.com/log
+  [ 2x] [GET ] 302 |          0B | x-unknown                           | GET match.adsby.bidtheatre.com/rubiconmatch
+  [ 1x] [GET ] 302 |          0B | x-unknown                           | GET match.adsrvr.org/track/usersync
+  [ 1x] [GET ] 200 |         68B | image/png                           | GET match.sharethrough.com/sync/v1
+  [ 2x] [GET ] 200 |          0B | text/plain                          | GET onetag-sys.com/match/
+  [ 1x] [GET ] 200 |       3022B | text/html                           | GET onetag-sys.com/usync/
+  [66x] [GET ] 204 |          0B | image/gif                           | GET pagead2.googlesyndication.com/pagead/gen_204
+  [ 1x] [GET ] 204 |          0B | image/                              | GET pagead2.googlesyndication.com/pagead/sodar
+  [ 2x] [GET ] 200 |         42B | image/gif                           | GET pagead2.googlesyndication.com/pcs/activeview
+  [ 7x] [GET ] 302 |          0B | text/html                           | GET pixel.rubiconproject.com/exchange/sync.php
+  [ 9x] [GET ] 200 |         42B | image/gif                           | GET pixel.rubiconproject.com/tap.php
+  [ 1x] [GET ] 302 |          0B | x-unknown                           | GET pixel.rubiconproject.com/token
+  [ 1x] [GET ] 200 |         42B | image/gif                           | GET pubads.g.doubleclick.net/pagead/interaction/
+  [ 1x] [GET ] 200 |         43B | image/gif                           | GET r.casalemedia.com/rum
+  [ 1x] [GET ] 404 |          0B | x-unknown                           | GET r4---sn-gwpa-5hqe7.gvt1.com/videoplayback/id/8aebf63880a5e062/itag/22/source/dclk_video_ads/requiressl/yes/xpc/EgVov
+  [ 1x] [GET ] 302 |          0B | text/html                           | GET redirector.gvt1.com/videoplayback/id/8aebf63880a5e062/itag/22/source/dclk_video_ads/requiressl/yes/xpc/EgVovf3BOg%3D
+  [ 2x] [GET ] 200 |         43B | image/gif                           | GET rtb-csync.smartadserver.com/redir/
+  [ 1x] [GET ] 204 |          0B | text/html                           | GET rtb.mfadsrvr.com/sync
+  [ 1x] [GET ] 302 |          0B | text/plain                          | GET s.ad.smaato.net/c/
+  [ 1x] [GET ] 302 |          0B | text/html                           | GET s.company-target.com/s/rp
+  [ 1x] [GET ] 200 |       7945B | text/html                           | GET s0.2mdn.net/sadbundle/16610986291101696000/728x90/728x90.html
+  [ 1x] [GET ] 200 |       7951B | text/html                           | GET s0.2mdn.net/sadbundle/18014420524981026816/300x250/300x250.html
+  [ 1x] [GET ] 200 |       7957B | text/html                           | GET s0.2mdn.net/sadbundle/9892741546971758592/300x600/300x600.html
+  [ 1x] [GET ] 200 |     237935B | text/plain                          | GET securepubads.g.doubleclick.net/gampad/ads
+  [ 1x] [GET ] 200 |      64902B | text/plain                          | GET securepubads.g.doubleclick.net/pagead/managed/dict/m202606040101/gpt
+  [ 6x] [GET ] 200 |          0B | image/gif                           | GET securepubads.g.doubleclick.net/pcs/view
+  [ 1x] [GET ] 200 |         42B | image/gif                           | GET simage2.pubmatic.com/AdServer/Pug
+  [ 1x] [GET ] 200 |          0B | text/plain                          | GET simage4.pubmatic.com/AdServer/SPug
+  [ 1x] [GET ] 200 |         68B | text/html                           | GET skyscanner-d.openx.net/w/1.0/pd
+  [ 2x] [GET ] 204 |          0B | text/plain                          | GET skyscanner-pbs.relevant-digital.com/analytics
+  [ 2x] [GET ] 302 |          0B | x-unknown                           | GET ssbsync.smartadserver.com/api/sync
+  [ 1x] [GET ] 200 |       7238B | application/x-javascript            | GET sslwidget.criteo.com/event
+  [ 1x] [GET ] 200 |          0B | text/plain                          | GET sync-t1.taboola.com/sg/criteortb-network/1/rtb-h/
+  [ 1x] [GET ] 302 |          0B | text/html                           | GET sync.1rx.io/usersync/criteodsp/k-iNOJfLJ10JXA2sfcbGh5YAsSNLPK8EGCUr3dmw
+  [ 1x] [GET ] 302 |          0B | text/html                           | GET sync.1rx.io/usersync2/rmpssp
+  [ 1x] [GET ] 200 |         86B | image/png                           | GET sync.ex.co/v1/setuid
+  [ 1x] [GET ] 403 |          0B | x-unknown                           | GET sync.intentiq.com/profiles_engine/ProfilesEngineServlet
+  [ 1x] [GET ] 204 |          0B | text/plain                          | GET sync.missena.io/magnite/M0Y2TUQN-16-L90P
+  [ 1x] [GET ] 200 |          0B | text/plain                          | GET sync.outbrain.com/cookie-sync
+  [ 1x] [GET ] 200 |         95B | image/png                           | GET sync.richaudience.com/e231bbbe91d9e7e900144b910bfcc7d7/
+  [ 1x] [GET ] 200 |         43B | image/gif                           | GET sync.springserve.com/usersync
+  [ 2x] [GET ] 200 |         43B | image/gif                           | GET sync.targeting.unrulymedia.com/csync/RX-17ea0ce0-e78b-49e7-b6ee-f8175c2357bf-004
+  [ 1x] [GET ] 302 |          0B | text/html                           | GET t.adx.opera.com/pub/sync
+  [ 1x] [GET ] 302 |          0B | text/html                           | GET t.oa.opera.com/sync
+  [ 1x] [GET ] 200 |         43B | image/gif                           | GET tg.socdm.com/aux/idsync
+  [ 1x] [GET ] 200 |          7B | application/json                    | GET token.rubiconproject.com/khaos.json
+  [ 1x] [GET ] 200 |        176B | text/html                           | GET tzm.px-cloud.net/ns
+  [ 5x] [GET ] 204 |          0B | text/plain                          | GET u.4dex.io/setuid
+  [ 1x] [GET ] 302 |          0B | image/gif                           | GET u.openx.net/w/1.0/cm
+  [ 1x] [GET ] 302 |          0B | x-unknown                           | GET um4.eqads.com/um/rc
+  [ 1x] [GET ] 302 |          0B | text/html                           | GET ups.analytics.yahoo.com/ups/58953/cms
+  [ 1x] [GET ] 302 |          0B | text/html                           | GET user-sync.fwmrm.net/ad/u
+  [ 2x] [GET ] 200 |         22B | application/json                    | GET ut.pubmatic.com/geo
+  [ 1x] [GET ] 204 |          0B | text/plain                          | GET visitor.omnitagjs.com/visitor/bsync
+  [ 1x] [GET ] 204 |          0B | text/plain                          | GET visitor.omnitagjs.com/visitor/isync
+  [ 2x] [GET ] 200 |          0B | text/plain                          | GET www.facebook.com/tr
+  [ 2x] [GET ] 200 |         42B | image/gif                           | GET www.google.co.in/ads/ga-audiences
+  [ 1x] [GET ] 200 |          0B | text/html                           | GET www.google.co.in/pagead/1p-conversion/1038637144/
+  [ 2x] [GET ] 200 |         42B | image/gif                           | GET www.google.co.in/pagead/1p-user-list/1038637144/
+  [ 1x] [GET ] 302 |          0B | text/html                           | GET www.google.com/pagead/1p-conversion/1038637144/
+  [ 2x] [GET ] 302 |          0B | image/gif                           | GET www.google.com/pagead/1p-user-list/1038637144/
+  [ 1x] [GET ] 200 |        829B | text/html                           | GET www.google.com/recaptcha/api2/aframe
+  [ 6x] [GET ] 200 |         93B | text/html                           | GET www.googleadservices.com/pagead/managed/js/activeview/current/reach_worklet.html
+  [ 6x] [GET ] 200 |     716001B | application/json                    | GET www.googletagservices.com/agrp/prod/model_person_country_code_IN_person_region_code_47756a61726174.json
+  [ 1x] [GET ] 200 |        133B | application/json                    | GET www.skyscanner.co.in/android-chrome-manifest.json
+  [ 4x] [GET ] 200 |         43B | image/gif                           | GET www.skyscanner.co.in/g/aps/public/api/v1/pixel/impression
+  [ 1x] [GET ] 200 |         43B | image/gif                           | GET www.skyscanner.co.in/g/aps/public/api/v1/pixel/view
+  [ 1x] [GET ] 200 |       7298B | application/json                    | GET www.skyscanner.co.in/g/culture-data-service/dataservices/culture/cldr/v2.0/en-gb/in/inr
+  [ 1x] [GET ] 200 |      74795B | application/json                    | GET www.skyscanner.co.in/g/radar/api/v2/web-unified-search/KLUv_SCLxQMAsggdHcDrD__9HaoS2nfZkpDtfzNHSpmSlJKT6sAJKn6LixIc9
+  [ 1x] [GET ] 200 |     361216B | application/json                    | GET www.skyscanner.co.in/g/radar/api/v2/web-unified-search/KLUv_SCP1QMA8ogdHcDrD__9HaoS2neSJNbu_X7dMiUpQhYx5opFBN82jxMgg
+  [ 1x] [GET ] 200 |    1342119B | application/json                    | GET www.skyscanner.co.in/g/radar/api/v2/web-unified-search/KLUv_SCP5QMA8ggeHsDrD__9HaoS2nekJCJo9fNXKZNMkb1IdSCoWPS9Ak4TI
+  [ 1x] [GET ] 200 |    2434410B | application/json                    | GET www.skyscanner.co.in/g/radar/api/v2/web-unified-search/KLUv_SCP7QMA8kgeHsDrD__9HaoS2nekJHbt__vZUiaZRC5SHQgq1ql7BY8TJ
+  [ 1x] [GET ] 200 |         93B | application/json                    | GET www.skyscanner.co.in/g/saved-experience-api/v2/available-save-features
+  [ 1x] [GET ] 200 |       3529B | text/html                           | GET www.skyscanner.co.in/g/tagging/_/service_worker/6631/sw_iframe.html
+  [ 2x] [GET ] 200 |         48B | image/gif                           | GET www.skyscanner.co.in/g/tagging/_/set_cookie
+  [ 2x] [GET ] 200 |        497B | text/plain                          | GET www.skyscanner.co.in/g/tagging/g/collect
+  [ 1x] [GET ] 200 |     504804B | application/javascript              | GET www.skyscanner.co.in/g/tagging/gtag/js
+  [ 1x] [GET ] 200 |     217765B | text/html                           | GET www.skyscanner.co.in/transport/flights/amd/mru/260710/260718/
+  [ 1x] [GET ] 302 |          0B | x-unknown                           | GET www.temu.com/api/adx/cm/pixel-opera
+  [ 1x] [GET ] 200 |         43B | image/gif                           | GET x.bidswitch.net/sync
+  [ 1x] [POST] 200 |        198B | application/json                    | POST bam.nr-data.net/1/NRJS-8ee30fb60b5d38aac95
+  [ 3x] [POST] 200 |         24B | image/gif                           | POST bam.nr-data.net/events/1/NRJS-8ee30fb60b5d38aac95
+  [ 8x] [POST] 204 |          0B | application/json                    | POST bam.nr-data.net/ins/1/NRJS-8ee30fb60b5d38aac95
+  [ 2x] [POST] 200 |         24B | image/gif                           | POST bam.nr-data.net/jserrors/1/NRJS-8ee30fb60b5d38aac95
+  [ 8x] [POST] 204 |          0B | image/gif                           | POST csi.gstatic.com/csi
+  [ 1x] [POST] 200 |          0B | application/json                    | POST direct.adsrvr.org/bid/bidder/direct56x8hqdg
+  [ 1x] [POST] 302 |          0B | text/html                           | POST googleads.g.doubleclick.net/pagead/viewthroughconversion/1038637144/
+  [ 1x] [POST] 200 |      81139B | application/json                    | POST grid-bidder.criteo.com/openrtb_2_5/pbjs/auction/request
+  [ 1x] [POST] 204 |          0B | x-unknown                           | POST hb-api.omnitagjs.com/hb-api/prebid/v1
+  [ 1x] [POST] 200 |      50580B | application/json                    | POST hbopenbid.pubmatic.com/translator
+  [ 1x] [POST] 200 |      20532B | application/json                    | POST htlb.casalemedia.com/openrtb/pbjs
+  [ 1x] [POST] 200 |      51599B | application/json                    | POST mp.4dex.io/prebid
+  [ 2x] [POST] 200 |         43B | image/gif                           | POST navvy.media.net/log
+  [ 1x] [POST] 200 |         15B | application/json                    | POST onetag-sys.com/prebid-request
+  [ 1x] [POST] 204 |          0B | image/gif                           | POST pagead2.googlesyndication.com/pagead/ping
+  [ 1x] [POST] 200 |     254514B | application/json                    | POST prebid.media.net/rtb/prebid
+  [ 1x] [POST] 200 |     110971B | application/json                    | POST prebid.trustedstack.com/rtb/trustedstack
+  [ 1x] [POST] 200 |      16548B | text/plain                          | POST rtb.openx.net/openrtbb/prebidjs
+  [ 1x] [POST] 204 |          0B | text/plain                          | POST skyscanner-pbs.relevant-digital.com/analytics
+  [ 6x] [POST] 200 |          0B | text/plain                          | POST www.google.com/ccm/collect
+  [ 2x] [POST] 200 |          0B | text/html                           | POST www.google.com/rmkt/collect/1038637144/
+  [ 1x] [POST] 200 |       5385B | application/json                    | POST www.skyscanner.co.in/g/ars/public/api/v2/request
+  [ 2x] [POST] 200 |      18237B | application/json                    | POST www.skyscanner.co.in/g/michelin/api/search/v1
+  [ 1x] [POST] 200 |        532B | application/json                    | POST www.skyscanner.co.in/g/price-insights/api/v2/search/price-bands
+  [ 2x] [POST] 200 |        249B | application/json                    | POST www.skyscanner.co.in/g/radar/api/v1/alternative-dates
+  [ 1x] [POST] 200 |       4292B | application/json                    | POST www.skyscanner.co.in/g/radar/api/v2/web-unified-search/
+  [ 1x] [POST] 200 |       4775B | application/json                    | POST www.skyscanner.co.in/g/search-intent/v1/pricecalendar
+  [ 1x] [POST] 200 |       1863B | application/json                    | POST www.skyscanner.co.in/g/search-intent/v1/pricecalendar/month
+  [ 4x] [POST] 200 |        792B | application/json                    | POST www.skyscanner.co.in/rf8vapwA/xhr/api/v2/collector
+  [ 6x] [POST] 200 |         26B | text/plain                          | POST www.skyscanner.co.in/slipstream/grp/v1/custom/public/acorn/ExperimentChokePoint/experiment_choke_point.ExperimentCh
+  [ 2x] [POST] 200 |         26B | text/plain                          | POST www.skyscanner.co.in/slipstream/grp/v1/custom/public/acorn/SmartMetric/experiment_smart_metrics.SmartMetric
+  [ 1x] [POST] 200 |         26B | text/plain                          | POST www.skyscanner.co.in/slipstream/grp/v1/custom/public/acorn/dayview_completed/flights_ui.UIEvent
+  [ 1x] [POST] 200 |         26B | text/plain                          | POST www.skyscanner.co.in/slipstream/grp/v1/custom/public/acorn/dayview_first_result_shown/flights_ui.UIEvent
+  [ 2x] [POST] 200 |         26B | text/plain                          | POST www.skyscanner.co.in/slipstream/grp/v1/custom/public/acorn/dayview_latency/acorn.SearchResultsLatency
+  [ 1x] [POST] 200 |         26B | text/plain                          | POST www.skyscanner.co.in/slipstream/grp/v1/custom/public/acorn/flights_day_view_loaded/flights_ui.UIEvent
+  [ 1x] [POST] 200 |         26B | text/plain                          | POST www.skyscanner.co.in/slipstream/grp/v1/custom/public/acorn/funnel_events/clients.SearchResultsPage
+  [ 1x] [POST] 200 |         26B | text/plain                          | POST www.skyscanner.co.in/slipstream/grp/v1/custom/public/acorn/funnel_events/clients.View
+  [ 3x] [POST] 200 |         26B | text/plain                          | POST www.skyscanner.co.in/slipstream/grp/v1/custom/public/acorn/funnel_events/tallyman.InteractionEvent
+  [ 1x] [POST] 200 |         26B | text/plain                          | POST www.skyscanner.co.in/slipstream/grp/v1/custom/public/acorn/live_prices_displayed/acorn.LivePricesDisplayed
+  [ 6x] [POST] 200 |         26B | text/plain                          | POST www.skyscanner.co.in/slipstream/grp/v1/custom/public/acorn/mbd-web/user_behaviour_data_domain.ElementImpression
+  [ 4x] [POST] 200 |         26B | text/plain                          | POST www.skyscanner.co.in/slipstream/grp/v1/custom/public/strevda/funnel_events/sponsored.AdImpression
+  [ 1x] [POST] 200 |         26B | text/plain                          | POST www.skyscanner.co.in/slipstream/grp/v1/custom/public/strevda/funnel_events/sponsored.AdRequest
+  [ 1x] [POST] 200 |         26B | text/plain                          | POST www.skyscanner.co.in/slipstream/grp/v1/custom/public/strevda/funnel_events/sponsored.AdResponse
+  [ 1x] [POST] 200 |         26B | text/plain                          | POST www.skyscanner.co.in/slipstream/grp/v1/custom/public/strevda/funnel_events/sponsored.AdView
+  [ 1x] [POST] 200 |         26B | text/plain                          | POST www.skyscanner.co.in/slipstream/view
+
+
+========================================================================================================================
+PART 2: DEEP DIVE - web-unified-search endpoints (THE MAIN SEARCH API)
+========================================================================================================================
+
+================================================================================
+  Method: POST
+  URL: https://www.skyscanner.co.in/g/radar/api/v2/web-unified-search/
+  Status: 200
+  Size: 4292
+  Mime: application/json
+
+  ALL Request Headers:
+    :authority: www.skyscanner.co.in
+    :method: POST
+    :path: /g/radar/api/v2/web-unified-search/
+    :scheme: https
+    accept: application/json
+    accept-encoding: gzip, deflate, br, zstd
+    accept-language: en-GB,en-US;q=0.9,en;q=0.8,hi;q=0.7
+    content-length: 438
+    content-type: application/json
+    origin: https://www.skyscanner.co.in
+    priority: u=1, i
+    referer: https://www.skyscanner.co.in/transport/flights/amd/mru/260710/260718/?adultsv2=1&cabinclass=economy&childrenv2=&ref=home&rtn=1&preferdirects=false&outboundaltsenabled=false&inboundaltsenabled=false
+    sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+    sec-ch-ua-mobile: ?0
+    sec-ch-ua-model: ""
+    sec-ch-ua-platform: "Windows"
+    sec-fetch-dest: empty
+    sec-fetch-mode: cors
+    sec-fetch-site: same-origin
+    user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+    x-skyscanner-ads-sponsored-view-type: ADS_SPONSORED_VIEW_DAY_VIEW
+    x-skyscanner-channelid: website
+    x-skyscanner-consent-adverts: true
+    x-skyscanner-currency: INR
+    x-skyscanner-locale: en-GB
+    x-skyscanner-market: IN
+    x-skyscanner-skip-accommodation-carhire: true
+    x-skyscanner-traveller-context: 0e09ff11-7364-476c-800b-8bf9c52082ed
+    x-skyscanner-trustedfunnelid: e3842c0f-cf5c-4180-bc22-b604f5523e5e
+    x-skyscanner-viewid: e3842c0f-cf5c-4180-bc22-b604f5523e5e
+
+  Request Body (438 chars):
+    {"cabinClass":"ECONOMY","childAges":[],"adults":1,"legs":[{"legOrigin":{"@type":"entity","entityId":"95673366"},"legDestination":{"@type":"entity","entityId":"128668851"},"dates":{"@type":"date","year":"2026","month":"07","day":"10"},"placeOfStay":"39740575"},{"legOrigin":{"@type":"entity","entityId":"128668851"},"legDestination":{"@type":"entity","entityId":"95673366"},"dates":{"@type":"date","year":"2026","month":"07","day":"18"}}]}
+
+  Response Headers:
+    accept-ch: Sec-CH-UA-Model
+    access-control-allow-origin: https://www.skyscanner.co.in
+    alt-svc: h3=":443"; ma=86400
+    content-encoding: gzip
+    content-length: 1122
+    content-type: application/json
+    date: Fri, 05 Jun 2026 12:27:48 GMT
+    referrer-policy: strict-origin-when-cross-origin
+    server: istio-envoy
+    strict-transport-security: max-age=31536000; includeSubDomains; preload
+    vary: Accept-Encoding,Accept-Encoding
+    via: 1.1 f2c93e4fbc5411dfff8cf886bf9aa076.cloudfront.net (CloudFront)
+    x-amz-cf-id: XMWMVvCYcPxjVNS08h_44UnvY9FaOE0ZJpkI39tchJxRV3JssjP9yw==
+    x-amz-cf-pop: PNQ50-P1
+    x-cache: Miss from cloudfront
+    x-content-type-options: nosniff
+    x-envoy-upstream-service-time: 502
+    x-frame-options: SAMEORIGIN
+    x-gateway-servedby: gw52.skyscanner.net
+    x-service-servedby: radar
+    x-skyscanner-session-id-token: eyJhbGciOiJSUzI1NiIsImtpZCI6InNlc3Npb24tc2VydmljZS1rZXktMjAyNi0wMyIsInR5cCI6IkpXVCJ9.eyJodHRwczovL3NreXNjYW5uZXIubmV0L3Nlc3Npb25faWQiOiIwMTllOTdiZS1jYjNmLTgwMDMtYWU3My01ZjhkMzUwNTk2MjEiLCJodHRwczovL3N
+    x-xss-protection: 1; mode=block
+
+  Response Body (4292 chars):
+    Top keys: ['context', 'itineraries']
+    'context': dict with keys: ['status', 'sessionId']
+    'itineraries': dict with keys: ['destinationImageUrl', 'filterStats', 'creatives', 'agents', 'alliances', 'context', 'results', 'buckets']
+      'itineraries.filterStats': dict with keys: ['duration', 'total', 'hasCityOpenJaw', 'multipleCarriers', 'airports', 'carriers', 'stopPrices', 'alliances', 'layoverAirports', 'layoverDuration']
+      'itineraries.creatives': list of 0 items
+      'itineraries.agents': list of 25 items
+        First item keys: ['id', 'name', 'isCarrier', 'updateStatus', 'optimisedForMobile', 'rating', 'feedbackCount']
+      'itineraries.alliances': list of 0 items
+      'itineraries.context': dict with keys: ['status', 'sessionId', 'totalResults']
+      'itineraries.results': list of 0 items
+      'itineraries.buckets': list of 0 items
+
+================================================================================
+  Method: GET
+  URL: https://www.skyscanner.co.in/g/radar/api/v2/web-unified-search/KLUv_SCLxQMAsggdHcDrD__9HaoS2nfZkpDtfzNHSpmSlJKT6sAJKn6LixIc9PEYnzfEYl2WPPe54T4Rsu13LCFvJ4qkpHhWNV0UQZmTj_P6mnPL73MnN7iUxrbenj6TjRgBMZn5P_dQZb_-US7tCheyhNsf31XWyLAMTAEIzRAA
+  Status: 200
+  Size: 74795
+  Mime: application/json
+
+  ALL Request Headers:
+    :authority: www.skyscanner.co.in
+    :method: GET
+    :path: /g/radar/api/v2/web-unified-search/KLUv_SCLxQMAsggdHcDrD__9HaoS2nfZkpDtfzNHSpmSlJKT6sAJKn6LixIc9PEYnzfEYl2WPPe54T4Rsu13LCFvJ4qkpHhWNV0UQZmTj_P6mnPL73MnN7iUxrbenj6TjRgBMZn5P_dQZb_-US7tCheyhNsf31XWyLAMT
+    :scheme: https
+    accept: application/json
+    accept-encoding: gzip, deflate, br, zstd
+    accept-language: en-GB,en-US;q=0.9,en;q=0.8,hi;q=0.7
+    content-type: application/json
+    priority: u=1, i
+    referer: https://www.skyscanner.co.in/transport/flights/amd/mru/260710/260718/?adultsv2=1&cabinclass=economy&childrenv2=&ref=home&rtn=1&preferdirects=false&outboundaltsenabled=false&inboundaltsenabled=false
+    sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+    sec-ch-ua-mobile: ?0
+    sec-ch-ua-model: ""
+    sec-ch-ua-platform: "Windows"
+    sec-fetch-dest: empty
+    sec-fetch-mode: cors
+    sec-fetch-site: same-origin
+    user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+    x-gateway-servedby: gw52.skyscanner.net
+    x-skyscanner-ads-sponsored-view-type: ADS_SPONSORED_VIEW_DAY_VIEW
+    x-skyscanner-channelid: website
+    x-skyscanner-consent-adverts: true
+    x-skyscanner-currency: INR
+    x-skyscanner-locale: en-GB
+    x-skyscanner-market: IN
+    x-skyscanner-skip-accommodation-carhire: true
+    x-skyscanner-traveller-context: 0e09ff11-7364-476c-800b-8bf9c52082ed
+    x-skyscanner-trustedfunnelid: e3842c0f-cf5c-4180-bc22-b604f5523e5e
+    x-skyscanner-viewid: e3842c0f-cf5c-4180-bc22-b604f5523e5e
+
+  Response Headers:
+    accept-ch: Sec-CH-UA-Model
+    alt-svc: h3=":443"; ma=86400
+    content-encoding: gzip
+    content-type: application/json
+    date: Fri, 05 Jun 2026 12:27:50 GMT
+    referrer-policy: strict-origin-when-cross-origin
+    server: istio-envoy
+    strict-transport-security: max-age=31536000; includeSubDomains; preload
+    vary: Accept-Encoding,Accept-Encoding
+    via: 1.1 f2c93e4fbc5411dfff8cf886bf9aa076.cloudfront.net (CloudFront)
+    x-amz-cf-id: ZwtBFfS_hsQaKs9GYFOvNL3SD1OlUlSwTBBSNUkuZNZsVcHhlQR8cw==
+    x-amz-cf-pop: PNQ50-P1
+    x-cache: Miss from cloudfront
+    x-content-type-options: nosniff
+    x-envoy-upstream-service-time: 247
+    x-frame-options: SAMEORIGIN
+    x-gateway-servedby: gw52.skyscanner.net
+    x-service-servedby: radar
+    x-skyscanner-session-id-token: eyJhbGciOiJSUzI1NiIsImtpZCI6InNlc3Npb24tc2VydmljZS1rZXktMjAyNi0wMyIsInR5cCI6IkpXVCJ9.eyJodHRwczovL3NreXNjYW5uZXIubmV0L3Nlc3Npb25faWQiOiIwMTllOTdiZS1jYjNmLTgwMDMtYWU3My01ZjhkMzUwNTk2MjEiLCJodHRwczovL3N
+    x-xss-protection: 1; mode=block
+
+  Response Body (74759 chars):
+    Top keys: ['context', 'itineraries']
+    'context': dict with keys: ['status', 'sessionId']
+    'itineraries': dict with keys: ['destinationImageUrl', 'filterStats', 'creatives', 'agents', 'alliances', 'context', 'results', 'buckets']
+      'itineraries.filterStats': dict with keys: ['duration', 'total', 'hasCityOpenJaw', 'multipleCarriers', 'airports', 'carriers', 'stopPrices', 'alliances', 'layoverAirports', 'layoverDuration']
+      'itineraries.creatives': list of 0 items
+      'itineraries.agents': list of 25 items
+        First item keys: ['id', 'name', 'isCarrier', 'updateStatus', 'optimisedForMobile', 'rating', 'feedbackCount']
+      'itineraries.alliances': list of 1 items
+        First item keys: ['id', 'name']
+      'itineraries.context': dict with keys: ['status', 'sessionId', 'totalResults']
+      'itineraries.results': list of 10 items
+        First item keys: ['id', 'price', 'legs', 'isSelfTransfer', 'isProtectedSelfTransfer', 'farePolicy', 'eco', 'fareAttributes', 'tags', 'isMashUp', 'hasFlexibleOptions', 'score', 'pricingOptions']
+      'itineraries.buckets': list of 0 items
+
+================================================================================
+  Method: GET
+  URL: https://www.skyscanner.co.in/g/radar/api/v2/web-unified-search/KLUv_SCP1QMA8ogdHcDrD__9HaoS2neSJNbu_X7dMiUpQhYx5opFBN82jxMggEFNsttJntuvMMJGHfLTqd8qOwPjlCxVlaUUgOG07NowYlf-4vonOaeu-0a_8afL_OrNznUvyREQDVzpjvH56yq9o1L8Tx-MT9nbmV9OhmeACkCIhgA%3D
+  Status: 200
+  Size: 361216
+  Mime: application/json
+
+  ALL Request Headers:
+    :authority: www.skyscanner.co.in
+    :method: GET
+    :path: /g/radar/api/v2/web-unified-search/KLUv_SCP1QMA8ogdHcDrD__9HaoS2neSJNbu_X7dMiUpQhYx5opFBN82jxMggEFNsttJntuvMMJGHfLTqd8qOwPjlCxVlaUUgOG07NowYlf-4vonOaeu-0a_8afL_OrNznUvyREQDVzpjvH56yq9o1L8Tx-MT9nbmV9Oh
+    :scheme: https
+    accept: application/json
+    accept-encoding: gzip, deflate, br, zstd
+    accept-language: en-GB,en-US;q=0.9,en;q=0.8,hi;q=0.7
+    content-type: application/json
+    priority: u=1, i
+    referer: https://www.skyscanner.co.in/transport/flights/amd/mru/260710/260718/?adultsv2=1&cabinclass=economy&childrenv2=&ref=home&rtn=1&preferdirects=false&outboundaltsenabled=false&inboundaltsenabled=false
+    sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+    sec-ch-ua-mobile: ?0
+    sec-ch-ua-model: ""
+    sec-ch-ua-platform: "Windows"
+    sec-fetch-dest: empty
+    sec-fetch-mode: cors
+    sec-fetch-site: same-origin
+    user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+    x-gateway-servedby: gw52.skyscanner.net
+    x-skyscanner-ads-sponsored-view-type: ADS_SPONSORED_VIEW_DAY_VIEW
+    x-skyscanner-channelid: website
+    x-skyscanner-consent-adverts: true
+    x-skyscanner-currency: INR
+    x-skyscanner-locale: en-GB
+    x-skyscanner-market: IN
+    x-skyscanner-skip-accommodation-carhire: true
+    x-skyscanner-traveller-context: 0e09ff11-7364-476c-800b-8bf9c52082ed
+    x-skyscanner-trustedfunnelid: e3842c0f-cf5c-4180-bc22-b604f5523e5e
+    x-skyscanner-viewid: e3842c0f-cf5c-4180-bc22-b604f5523e5e
+
+  Response Headers:
+    accept-ch: Sec-CH-UA-Model
+    alt-svc: h3=":443"; ma=86400
+    content-encoding: gzip
+    content-type: application/json
+    date: Fri, 05 Jun 2026 12:27:52 GMT
+    referrer-policy: strict-origin-when-cross-origin
+    server: istio-envoy
+    strict-transport-security: max-age=31536000; includeSubDomains; preload
+    vary: Accept-Encoding,Accept-Encoding
+    via: 1.1 f2c93e4fbc5411dfff8cf886bf9aa076.cloudfront.net (CloudFront)
+    x-amz-cf-id: x85uqVfPIFv-LqkhRQU9vO9TtGQJj_G8_RVpasAtI_nxIjSFd5Wd0w==
+    x-amz-cf-pop: PNQ50-P1
+    x-cache: Miss from cloudfront
+    x-content-type-options: nosniff
+    x-envoy-upstream-service-time: 248
+    x-frame-options: SAMEORIGIN
+    x-gateway-servedby: gw52.skyscanner.net
+    x-service-servedby: radar
+    x-skyscanner-session-id-token: eyJhbGciOiJSUzI1NiIsImtpZCI6InNlc3Npb24tc2VydmljZS1rZXktMjAyNi0wMyIsInR5cCI6IkpXVCJ9.eyJodHRwczovL3NreXNjYW5uZXIubmV0L3Nlc3Npb25faWQiOiIwMTllOTdiZS1jYjNmLTgwMDMtYWU3My01ZjhkMzUwNTk2MjEiLCJodHRwczovL3N
+    x-xss-protection: 1; mode=block
+
+  Response Body (361080 chars):
+    Top keys: ['context', 'itineraries']
+    'context': dict with keys: ['status', 'sessionId']
+    'itineraries': dict with keys: ['destinationImageUrl', 'filterStats', 'creatives', 'agents', 'alliances', 'context', 'results', 'buckets']
+      'itineraries.filterStats': dict with keys: ['duration', 'total', 'hasCityOpenJaw', 'multipleCarriers', 'airports', 'carriers', 'stopPrices', 'alliances', 'layoverAirports', 'layoverDuration']
+      'itineraries.creatives': list of 9 items
+        First item keys: ['idFormat', 'fields', 'analyticsProperties', 'pixels', 'performanceEventsPayloads']
+      'itineraries.agents': list of 25 items
+        First item keys: ['id', 'name', 'isCarrier', 'updateStatus', 'optimisedForMobile', 'rating', 'feedbackCount']
+      'itineraries.alliances': list of 1 items
+        First item keys: ['id', 'name']
+      'itineraries.context': dict with keys: ['status', 'sessionId', 'totalResults']
+      'itineraries.results': list of 41 items
+        First item keys: ['id', 'price', 'legs', 'isSelfTransfer', 'isProtectedSelfTransfer', 'farePolicy', 'eco', 'fareAttributes', 'tags', 'isMashUp', 'hasFlexibleOptions', 'score', 'pricingOptions']
+      'itineraries.buckets': list of 0 items
+
+================================================================================
+  Method: GET
+  URL: https://www.skyscanner.co.in/g/radar/api/v2/web-unified-search/KLUv_SCP5QMA8ggeHsDrD__9HaoS2nekJCJo9fNXKZNMkb1IdSCoWPS9Ak4TIIEhyenu5qPN6zbsuN-PVzq3fc80pPNF00QpBWA47Koyi3gJxhn5nbtvc43r3MJLqdQrp3QqYUyOgIjd5jvmaW2_8x2u9CovN-R978_U9pLBGZ4CEKAhAA%3D%3D
+  Status: 200
+  Size: 1342119
+  Mime: application/json
+
+  ALL Request Headers:
+    :authority: www.skyscanner.co.in
+    :method: GET
+    :path: /g/radar/api/v2/web-unified-search/KLUv_SCP5QMA8ggeHsDrD__9HaoS2nekJCJo9fNXKZNMkb1IdSCoWPS9Ak4TIIEhyenu5qPN6zbsuN-PVzq3fc80pPNF00QpBWA47Koyi3gJxhn5nbtvc43r3MJLqdQrp3QqYUyOgIjd5jvmaW2_8x2u9CovN-R978_U9
+    :scheme: https
+    accept: application/json
+    accept-encoding: gzip, deflate, br, zstd
+    accept-language: en-GB,en-US;q=0.9,en;q=0.8,hi;q=0.7
+    content-type: application/json
+    priority: u=1, i
+    referer: https://www.skyscanner.co.in/transport/flights/amd/mru/260710/260718/?adultsv2=1&cabinclass=economy&childrenv2=&ref=home&rtn=1&preferdirects=false&outboundaltsenabled=false&inboundaltsenabled=false
+    sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+    sec-ch-ua-mobile: ?0
+    sec-ch-ua-model: ""
+    sec-ch-ua-platform: "Windows"
+    sec-fetch-dest: empty
+    sec-fetch-mode: cors
+    sec-fetch-site: same-origin
+    user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+    x-gateway-servedby: gw52.skyscanner.net
+    x-skyscanner-ads-sponsored-view-type: ADS_SPONSORED_VIEW_DAY_VIEW
+    x-skyscanner-channelid: website
+    x-skyscanner-consent-adverts: true
+    x-skyscanner-currency: INR
+    x-skyscanner-locale: en-GB
+    x-skyscanner-market: IN
+    x-skyscanner-skip-accommodation-carhire: true
+    x-skyscanner-traveller-context: 0e09ff11-7364-476c-800b-8bf9c52082ed
+    x-skyscanner-trustedfunnelid: e3842c0f-cf5c-4180-bc22-b604f5523e5e
+    x-skyscanner-viewid: e3842c0f-cf5c-4180-bc22-b604f5523e5e
+
+  Response Headers:
+    accept-ch: Sec-CH-UA-Model
+    alt-svc: h3=":443"; ma=86400
+    content-encoding: gzip
+    content-type: application/json
+    date: Fri, 05 Jun 2026 12:27:56 GMT
+    referrer-policy: strict-origin-when-cross-origin
+    server: istio-envoy
+    strict-transport-security: max-age=31536000; includeSubDomains; preload
+    vary: Accept-Encoding,Accept-Encoding
+    via: 1.1 f2c93e4fbc5411dfff8cf886bf9aa076.cloudfront.net (CloudFront)
+    x-amz-cf-id: aajem2n-Sh71movVpadmTl5UyXwf_rEUeqsf_M8K-67oBICQ0sFd_Q==
+    x-amz-cf-pop: PNQ50-P1
+    x-cache: Miss from cloudfront
+    x-content-type-options: nosniff
+    x-envoy-upstream-service-time: 556
+    x-frame-options: SAMEORIGIN
+    x-gateway-servedby: gw52.skyscanner.net
+    x-service-servedby: radar
+    x-skyscanner-session-id-token: eyJhbGciOiJSUzI1NiIsImtpZCI6InNlc3Npb24tc2VydmljZS1rZXktMjAyNi0wMyIsInR5cCI6IkpXVCJ9.eyJodHRwczovL3NreXNjYW5uZXIubmV0L3Nlc3Npb25faWQiOiIwMTllOTdiZS1jYjNmLTgwMDMtYWU3My01ZjhkMzUwNTk2MjEiLCJodHRwczovL3N
+    x-xss-protection: 1; mode=block
+
+  Response Body (1341683 chars):
+    Top keys: ['context', 'itineraries']
+    'context': dict with keys: ['status', 'sessionId']
+    'itineraries': dict with keys: ['destinationImageUrl', 'filterStats', 'creatives', 'agents', 'alliances', 'context', 'results', 'buckets']
+      'itineraries.filterStats': dict with keys: ['duration', 'total', 'hasCityOpenJaw', 'multipleCarriers', 'airports', 'carriers', 'stopPrices', 'alliances', 'layoverAirports', 'layoverDuration']
+      'itineraries.creatives': list of 14 items
+        First item keys: ['idFormat', 'fields', 'analyticsProperties', 'pixels', 'performanceEventsPayloads']
+      'itineraries.agents': list of 26 items
+        First item keys: ['id', 'name', 'isCarrier', 'updateStatus', 'optimisedForMobile', 'rating', 'feedbackCount']
+      'itineraries.alliances': list of 3 items
+        First item keys: ['id', 'name']
+      'itineraries.context': dict with keys: ['status', 'sessionId', 'totalResults']
+      'itineraries.results': list of 156 items
+        First item keys: ['id', 'price', 'legs', 'isSelfTransfer', 'isProtectedSelfTransfer', 'farePolicy', 'eco', 'fareAttributes', 'isMashUp', 'hasFlexibleOptions', 'score', 'pricingOptions']
+      'itineraries.buckets': list of 0 items
+
+================================================================================
+  Method: GET
+  URL: https://www.skyscanner.co.in/g/radar/api/v2/web-unified-search/KLUv_SCP7QMA8kgeHsDrD__9HaoS2nekJHbt__vZUiaZRC5SHQgq1ql7BY8TJMJBTS4l9KZO1o0zNvuxeSfJbvtfnNRbqiprMYADatm1YUUzGW_gnPL1L-XUtyPlpczIrZDy5JEqSFA00fnD97S6X385l-rKy3Hy9st_1bVCPARkAENEBAA%3D
+  Status: 200
+  Size: 2434410
+  Mime: application/json
+
+  ALL Request Headers:
+    :authority: www.skyscanner.co.in
+    :method: GET
+    :path: /g/radar/api/v2/web-unified-search/KLUv_SCP7QMA8kgeHsDrD__9HaoS2nekJHbt__vZUiaZRC5SHQgq1ql7BY8TJMJBTS4l9KZO1o0zNvuxeSfJbvtfnNRbqiprMYADatm1YUUzGW_gnPL1L-XUtyPlpczIrZDy5JEqSFA00fnD97S6X385l-rKy3Hy9st_1
+    :scheme: https
+    accept: application/json
+    accept-encoding: gzip, deflate, br, zstd
+    accept-language: en-GB,en-US;q=0.9,en;q=0.8,hi;q=0.7
+    content-type: application/json
+    priority: u=1, i
+    referer: https://www.skyscanner.co.in/transport/flights/amd/mru/260710/260718/?adultsv2=1&cabinclass=economy&childrenv2=&ref=home&rtn=1&preferdirects=false&outboundaltsenabled=false&inboundaltsenabled=false
+    sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+    sec-ch-ua-mobile: ?0
+    sec-ch-ua-model: ""
+    sec-ch-ua-platform: "Windows"
+    sec-fetch-dest: empty
+    sec-fetch-mode: cors
+    sec-fetch-site: same-origin
+    user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+    x-gateway-servedby: gw52.skyscanner.net
+    x-skyscanner-ads-sponsored-view-type: ADS_SPONSORED_VIEW_DAY_VIEW
+    x-skyscanner-channelid: website
+    x-skyscanner-consent-adverts: true
+    x-skyscanner-currency: INR
+    x-skyscanner-locale: en-GB
+    x-skyscanner-market: IN
+    x-skyscanner-skip-accommodation-carhire: true
+    x-skyscanner-traveller-context: 0e09ff11-7364-476c-800b-8bf9c52082ed
+    x-skyscanner-trustedfunnelid: e3842c0f-cf5c-4180-bc22-b604f5523e5e
+    x-skyscanner-viewid: e3842c0f-cf5c-4180-bc22-b604f5523e5e
+
+  Response Headers:
+    accept-ch: Sec-CH-UA-Model
+    alt-svc: h3=":443"; ma=86400
+    content-encoding: gzip
+    content-type: application/json
+    date: Fri, 05 Jun 2026 12:28:01 GMT
+    referrer-policy: strict-origin-when-cross-origin
+    server: istio-envoy
+    strict-transport-security: max-age=31536000; includeSubDomains; preload
+    vary: Accept-Encoding,Accept-Encoding
+    via: 1.1 f2c93e4fbc5411dfff8cf886bf9aa076.cloudfront.net (CloudFront)
+    x-amz-cf-id: 1wFuqbatk_exhJe-5ZN2HM_AU5FfF3YIKuBSb8aGOO8FSM5Hs7r_SQ==
+    x-amz-cf-pop: PNQ50-P1
+    x-cache: Miss from cloudfront
+    x-content-type-options: nosniff
+    x-envoy-upstream-service-time: 871
+    x-frame-options: SAMEORIGIN
+    x-gateway-servedby: gw52.skyscanner.net
+    x-service-servedby: radar
+    x-skyscanner-session-id-token: eyJhbGciOiJSUzI1NiIsImtpZCI6InNlc3Npb24tc2VydmljZS1rZXktMjAyNi0wMyIsInR5cCI6IkpXVCJ9.eyJodHRwczovL3NreXNjYW5uZXIubmV0L3Nlc3Npb25faWQiOiIwMTllOTdiZS1jYjNmLTgwMDMtYWU3My01ZjhkMzUwNTk2MjEiLCJodHRwczovL3N
+    x-xss-protection: 1; mode=block
+
+  Response Body (2433738 chars):
+    Top keys: ['context', 'itineraries']
+    'context': dict with keys: ['status', 'sessionId']
+    'itineraries': dict with keys: ['destinationImageUrl', 'filterStats', 'creatives', 'agents', 'alliances', 'context', 'results', 'buckets']
+      'itineraries.filterStats': dict with keys: ['duration', 'total', 'hasCityOpenJaw', 'multipleCarriers', 'airports', 'carriers', 'stopPrices', 'alliances', 'layoverAirports', 'layoverDuration']
+      'itineraries.creatives': list of 14 items
+        First item keys: ['idFormat', 'fields', 'analyticsProperties', 'pixels', 'performanceEventsPayloads']
+      'itineraries.agents': list of 27 items
+        First item keys: ['id', 'name', 'isCarrier', 'updateStatus', 'optimisedForMobile', 'rating', 'feedbackCount']
+      'itineraries.alliances': list of 3 items
+        First item keys: ['id', 'name']
+      'itineraries.context': dict with keys: ['status', 'sessionId', 'totalResults']
+      'itineraries.results': list of 217 items
+        First item keys: ['id', 'price', 'legs', 'isSelfTransfer', 'isProtectedSelfTransfer', 'farePolicy', 'eco', 'fareAttributes', 'isMashUp', 'hasFlexibleOptions', 'score', 'pricingOptions']
+      'itineraries.buckets': list of 0 items
+
+
+========================================================================================================================
+PART 3: DEEP DIVE - /g/conductor/v1/fps/search/ (Create search)
+========================================================================================================================
+
+
+========================================================================================================================
+PART 4: DEEP DIVE - alternative-dates endpoint
+========================================================================================================================
+
+  [POST] 200 | 249B | https://www.skyscanner.co.in/g/radar/api/v1/alternative-dates
+
+  Request Body:
+    {"requestContext":{"localisationContext":{"currency":"INR","locale":"en-GB","market":"IN"},"trustedFunnelId":"e3842c0f-cf5c-4180-bc22-b604f5523e5e","viewId":"e3842c0f-cf5c-4180-bc22-b604f5523e5e","channelId":"website"},"searchRequest":{"adults":1,"childAges":[],"legs":[{"date":{"year":2026,"month":7,"day":10},"origin":["95673366"],"destination":["128668851"]},{"date":{"year":2026,"month":7,"day":18},"origin":["128668851"],"destination":["95673366"]}],"nearbyAirports":{"includeOriginNearbyAirports":false,"includeDestinationNearbyAirports":false},"cabinClass":"economy"}}
+
+  Request Headers:
+    :authority: www.skyscanner.co.in
+    :method: POST
+    :path: /g/radar/api/v1/alternative-dates
+    :scheme: https
+    accept: */*
+    accept-encoding: gzip, deflate, br, zstd
+    accept-language: en-GB,en-US;q=0.9,en;q=0.8,hi;q=0.7
+    content-length: 575
+    content-type: text/plain;charset=UTF-8
+    origin: https://www.skyscanner.co.in
+    priority: u=1, i
+    referer: https://www.skyscanner.co.in/transport/flights/amd/mru/260710/260718/?adultsv2=1&cabinclass=economy&childrenv2=&ref=home&rtn=1&preferdirects=false&outboundaltsenabled=false&inboundaltsenabled=false
+    sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+    sec-ch-ua-mobile: ?0
+    sec-ch-ua-model: ""
+    sec-ch-ua-platform: "Windows"
+    sec-fetch-dest: empty
+    sec-fetch-mode: cors
+    sec-fetch-site: same-origin
+    user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+
+  Response keys: ['pollingSession', 'alternativeDates']
+    'pollingSession': ['status', 'pollingSessionId']
+    'alternativeDates': list of 0
+
+  [POST] 200 | 251B | https://www.skyscanner.co.in/g/radar/api/v1/alternative-dates
+
+  Request Body:
+    {"requestContext":{"localisationContext":{"currency":"INR","locale":"en-GB","market":"IN"},"trustedFunnelId":"e3842c0f-cf5c-4180-bc22-b604f5523e5e","viewId":"e3842c0f-cf5c-4180-bc22-b604f5523e5e","channelId":"website"},"pollingSessionId":"KLUv_SBlBQMAUgYXHbCpAwwDFAmGLap33XaXtVKgZIskUpZNJAG2sI6zDQMUzEjLXscJ5Ld9-r2qjxFZrg_qo_A5USQdRF7WRFUDMGym5rqosHt_GZd3r14fKM-t17kGDXawhBAChQUA","searchRequest":{"adults":1,"childAges":[],"legs":[{"date":{"year":2026,"month":7,"day":10},"origin":["95673366"],"destination":["128668851"]},{"date":{"year":2026,"month":7,"day":18},"origin":["128668851"],"destination":["95673366"]}],"nearbyAirports":{"includeOriginNearbyAirports":false,"includeDestinationNearbyAirports":false},"cabinClass":"economy"}}
+
+  Request Headers:
+    :authority: www.skyscanner.co.in
+    :method: POST
+    :path: /g/radar/api/v1/alternative-dates
+    :scheme: https
+    accept: */*
+    accept-encoding: gzip, deflate, br, zstd
+    accept-language: en-GB,en-US;q=0.9,en;q=0.8,hi;q=0.7
+    content-length: 737
+    content-type: text/plain;charset=UTF-8
+    origin: https://www.skyscanner.co.in
+    priority: u=1, i
+    referer: https://www.skyscanner.co.in/transport/flights/amd/mru/260710/260718/?adultsv2=1&cabinclass=economy&childrenv2=&ref=home&rtn=1&preferdirects=false&outboundaltsenabled=false&inboundaltsenabled=false
+    sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+    sec-ch-ua-mobile: ?0
+    sec-ch-ua-model: ""
+    sec-ch-ua-platform: "Windows"
+    sec-fetch-dest: empty
+    sec-fetch-mode: cors
+    sec-fetch-site: same-origin
+    user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+
+  Response keys: ['pollingSession', 'alternativeDates']
+    'pollingSession': ['status', 'pollingSessionId']
+    'alternativeDates': list of 0
+
+
+========================================================================================================================
+PART 5: /g/radar/ or /radar/ endpoints
+========================================================================================================================
+
+
+========================================================================================================================
+PART 6: Cookies analysis
+========================================================================================================================
+
+  Total unique cookies: 0
+
+
+========================================================================================================================
+PART 7: Set-Cookie headers in responses
+========================================================================================================================

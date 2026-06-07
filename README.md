@@ -1,104 +1,33 @@
-# Skyscanner Flight Search & Mauritius Trip Optimizer
+﻿# Mauritius Flight Optimizer
 
-A powerful, reverse-engineered Python client for querying the Skyscanner flight search API directly—without needing Playwright, Selenium, or an official API key.
+Finds the cheapest Ahmedabad to Mauritius itineraries using the Skyscanner web API.
 
-## Project Overview
+## Quick start
 
-This project provides a direct API client to the Skyscanner search engine. Through deep HAR file analysis and endpoint discovery, the primary search endpoints (`/g/radar/api/v2/web-unified-search/` and `/g/autosuggest-search/api/v1/search-flight`) have been fully reverse-engineered. This allows for rapid, lightweight flight searches using pure HTTP requests.
-
-A specific use-case included in this repository is the **Mauritius Trip Optimizer**, which automates the search space for flights to Mauritius from several major Indian airports across multiple departure and return dates. It can perform 1,440+ searches efficiently to find the absolute cheapest flights.
-
-## Tech Stack
-
-*   **Language**: Python 3.7+
-*   **Dependencies**: `requests`
-*   **Architecture**: Stateless HTTP polling client with built-in entity resolution and result parsing.
-
-## Setup / Installation Instructions
-
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/yourusername/skyscanner-flight-search.git
-    cd skyscanner-flight-search
-    ```
-
-2.  **Create a virtual environment (Optional but recommended):**
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
-    ```
-
-3.  **Install requirements:**
-    ```bash
-    pip install requests
-    ```
-
-## Environment Variables
-
-**None required!** 
-This project leverages Skyscanner's public web unified search endpoints and does not require any official API keys, OAuth tokens, or environment variables to function. Simply run the scripts.
-
-## Available Scripts
-
-### Core Search & Optimization
-*   `flight_search.py`: The core Skyscanner Flight Search Engine module containing the `SkyscannerSearchClient` and related data structures.
-*   `optimize.py`: The full search-space optimization script. Searches across multiple origins, departure dates, and return dates to find the best trip options.
-*   `kaggle_optimizer.py`: A standalone, self-contained version of the optimizer specifically formatted to be copy-pasted and run inside a Kaggle Notebook (ideal for leveraging free cloud compute).
-
-### Testing
-*   `test_api.py`: Empirically validates if the direct API works from Python `requests`.
-*   `test_single.py`: A minimal test script to validate the autosuggest endpoint and perform a single verbose search.
-
-### Reverse Engineering & HAR Analysis
-These scripts were used to reverse-engineer the Skyscanner website logic and are preserved for educational and debugging purposes.
-*   `parse_har.py`, `parse_har_deep.py`, `parse_har_extended.py`: Scripts to parse and categorize network requests from a Skyscanner HAR file.
-*   `phase1_validate.py`: Independent validation of claims from HAR analysis.
-*   `phase2_3_discover.py`: Discovers all skyscanner.co.in endpoints not yet investigated.
-*   `phase3_entity_detail.py`: Entity ID resolution, extracting autosuggest and geo/place endpoints.
-*   `phase4_5_antibot.py`: Analyzes minimal required request components and anti-bot mechanisms.
-
-## Folder Structure
-
-```
-├── flight_search.py         # Core API client library
-├── optimize.py              # Main multi-search optimization script
-├── kaggle_optimizer.py      # Notebook-ready version for Kaggle
-├── test_api.py              # API validation tests
-├── test_single.py           # Single-route test script
-├── parse_har*.py            # HAR analysis utilities
-├── phase*.py                # Reverse-engineering discovery scripts
-├── *.txt                    # Output logs from HAR analysis phases
-├── results/                 # Directory where output JSON and CSV files are saved
-└── README.md                # Project documentation
-```
-
-## How to Run the Optimizer
-
-**Local Execution:**
-Run the optimizer locally to begin searching for flights:
 ```bash
-python optimize.py
+pip install requests
+python kaggle_optimizer.py
 ```
-Results will be generated and saved to the `results/` directory as both CSV and JSON.
 
-**Kaggle Execution:**
-1. Create a new Kaggle Notebook.
-2. Turn ON Internet access in the notebook settings.
-3. Paste the contents of `kaggle_optimizer.py` into a cell and run.
-4. Download the generated results from the `/kaggle/working/results/` directory.
+## Run modes
 
-## Contributing Guidelines
+```bash
+python kaggle_optimizer.py                  # full pipeline
+python kaggle_optimizer.py --phase monitor  # daily price tracking
+python kaggle_optimizer.py --resume         # continue after interrupt
+python kaggle_optimizer.py --skip-gateway --skip-oneway
+```
 
-Contributions are welcome! If you find new endpoints, better ways to bypass rate limits, or want to add support for different regions/currencies:
+## Output
 
-1.  Fork the repository.
-2.  Create a new branch (`git checkout -b feature/amazing-feature`).
-3.  Commit your changes (`git commit -m 'Add amazing feature'`).
-4.  Push to the branch (`git push origin feature/amazing-feature`).
-5.  Open a Pull Request.
+Results in `results/`: best_itineraries CSV/JSON, price_history.json, checkpoints.
 
-Please ensure your code follows standard Python conventions (PEP 8) and includes appropriate comments.
+## Kaggle
 
-## Disclaimer
+Enable Internet, run `!python kaggle_optimizer.py`.
 
-This project is for educational purposes only. It interacts with undocumented APIs which may change at any time. Please be respectful of Skyscanner's servers and do not use this script for abusive scraping or commercial purposes.
+## Repo layout
+
+- `kaggle_optimizer.py` — main optimizer
+- `flight_search.py` — generic search engine
+- `dev/` — HAR analysis scripts
