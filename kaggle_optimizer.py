@@ -1,15 +1,15 @@
 # %% [markdown]
-# # Mauritius Trip Optimizer — Skyscanner API (v2)
+# # Mauritius Trip Optimizer — Skyscanner API (v3)
 #
-# Multi-phase search: coarse date scan → local refinement → real positioning fares
-# → one-way combinations → international gateways → price monitoring.
+# Multi-phase search with adaptive refinement, parallel workers, API budget cap,
+# Monte Carlo daily monitoring, hub-graph routing, and all-time-low alerts.
 #
 # **No API key required.** Run locally or on Kaggle with Internet enabled.
 
 # %%
 """
-Skyscanner Mauritius Trip Optimizer v2
-Broad date flexibility, two-stage search, one-way combos, and price tracking.
+Skyscanner Mauritius Trip Optimizer v3
+Adaptive search, parallel execution, Monte Carlo monitoring, hub-graph routing.
 """
 
 import argparse
@@ -17,9 +17,11 @@ import csv
 import json
 import os
 import random
+import threading
 import time
 import uuid
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 from datetime import date, datetime, timedelta
 from itertools import product
@@ -35,6 +37,7 @@ IS_KAGGLE = os.path.exists("/kaggle/working")
 OUTPUT_DIR = "results"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 PRICE_HISTORY_PATH = os.path.join(OUTPUT_DIR, "price_history.json")
+ALERTS_PATH = os.path.join(OUTPUT_DIR, "alerts.json")
 
 print(f"Environment: {'Kaggle' if IS_KAGGLE else 'Local'}")
 print(f"Output dir: {OUTPUT_DIR}")
@@ -60,10 +63,26 @@ RET_END = date(2026, 8, 10)
 MIN_TRIP_DAYS = 10
 MAX_TRIP_DAYS = 25
 
-# Two-stage search
+# Two-stage + adaptive search
 COARSE_DAY_STEP = 3
-REFINE_RADIUS_DAYS = 2
-TOP_REGIONS = 20
+REFINE_RADIUS_DAYS = 1
+REFINE_RADIUS_CLUSTERED = 2
+TOP_REGIONS = 10
+TOP_REGIONS_EXPANDED = 20
+CLUSTER_PRICE_SPREAD = 0.05
+ONEWAY_SEED_COUNT = 20
+ADAPTIVE_REFINE_BUDGET = 120
+WEEKDAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+
+# Runtime limits and parallelism
+MAX_TOTAL_API_CALLS = 5000
+CONCURRENT_WORKERS = 4
+MONTE_CARLO_SAMPLES = 100
+MONTE_CARLO_VOLATILE_FRACTION = 0.6
+HUB_GRAPH_HUBS = ["BOM", "DEL", "COK", "BLR"]
+HUB_GRAPH_MAX_PAIRS = 12
+
+ENTITY_CACHE_LOCK = threading.Lock()
 
 # Fallback positioning estimates (used until real fares are fetched)
 POSITIONING_ESTIMATES = {
@@ -168,6 +187,23 @@ def time_bucket() -> str:
     return "night"
 
 
+def weekday_label(d: date) -> str:
+    return WEEKDAY_NAMES[d.weekday()]
+
+
+def weekday_representatives(dates: List[date]) -> List[date]:
+    """One representative date per weekday (middle occurrence in range)."""
+    by_wd: Dict[int, List[date]] = defaultdict(list)
+    for d in dates:
+        by_wd[d.weekday()].append(d)
+    reps = []
+    for wd in range(7):
+        if wd in by_wd:
+            bucket = by_wd[wd]
+            reps.append(bucket[len(bucket) // 2])
+    return sorted(reps)
+
+
 # ============================================================
 # ENTITY RESOLVER
 # ============================================================
@@ -198,7 +234,8 @@ def resolve_entity(iata: str) -> Optional[str]:
                     if item.get("PlaceId", "").upper() == code:
                         geo_id = item.get("GeoId", "")
                         if geo_id:
-                            ENTITY_CACHE[code] = geo_id
+                            with ENTITY_CACHE_LOCK:
+                                ENTITY_CACHE[code] = geo_id
                             print(f"  Resolved {code} -> {geo_id} ({item.get('PlaceName', '')})")
                             return geo_id
     except Exception as exc:
@@ -251,13 +288,40 @@ def resolve_destination_variants() -> List[Tuple[str, str]]:
 
 
 # ============================================================
+# SEARCH BUDGET (global API call cap)
+# ============================================================
+
+class SearchBudget:
+    def __init__(self, max_calls: int = MAX_TOTAL_API_CALLS):
+        self.max_calls = max_calls
+        self.used = 0
+        self._lock = threading.Lock()
+        self.exhausted = False
+
+    def acquire(self) -> bool:
+        with self._lock:
+            if self.used >= self.max_calls:
+                self.exhausted = True
+                return False
+            self.used += 1
+            if self.used >= self.max_calls:
+                self.exhausted = True
+            return True
+
+    def remaining(self) -> int:
+        with self._lock:
+            return max(0, self.max_calls - self.used)
+
+
+# ============================================================
 # PRICE HISTORY
 # ============================================================
 
 class PriceHistory:
     def __init__(self, path: str = PRICE_HISTORY_PATH):
         self.path = path
-        self.data = {"routes": {}, "runs": []}
+        self.data = {"routes": {}, "runs": [], "all_time_best": None}
+        self._lock = threading.Lock()
         self._load()
 
     def _load(self):
@@ -269,41 +333,197 @@ class PriceHistory:
                 pass
 
     def save(self):
-        with open(self.path, "w", encoding="utf-8") as f:
-            json.dump(self.data, f, indent=2, ensure_ascii=False)
+        with self._lock:
+            with open(self.path, "w", encoding="utf-8") as f:
+                json.dump(self.data, f, indent=2, ensure_ascii=False)
 
-    def record(self, route_key: str, price: float, search_type: str = "roundtrip"):
-        bucket = time_bucket()
-        ts = datetime.now().isoformat()
-        routes = self.data.setdefault("routes", {})
-        entry = routes.setdefault(
-            route_key,
+    def record(
+        self,
+        route_key: str,
+        price: float,
+        search_type: str = "roundtrip",
+        dep_date: Optional[str] = None,
+        carriers: Optional[str] = None,
+    ) -> Optional[str]:
+        """Record observation. Returns alert message if new all-time low."""
+        with self._lock:
+            bucket = time_bucket()
+            ts = datetime.now().isoformat()
+            routes = self.data.setdefault("routes", {})
+            entry = routes.setdefault(
+                route_key,
+                {
+                    "observations": [],
+                    "min_price_seen": None,
+                    "max_price_seen": None,
+                    "avg_price": None,
+                    "search_type": search_type,
+                },
+            )
+            obs = {"timestamp": ts, "price": price, "time_bucket": bucket}
+            if dep_date:
+                obs["dep_weekday"] = weekday_label(date.fromisoformat(dep_date))
+            entry["observations"].append(obs)
+            prices = [o["price"] for o in entry["observations"]]
+            entry["min_price_seen"] = min(prices)
+            entry["max_price_seen"] = max(prices)
+            entry["avg_price"] = round(sum(prices) / len(prices), 2)
+
+            if carriers:
+                for airline in {a.strip() for a in carriers.split(",") if a.strip()}:
+                    self._record_airline_unlocked(airline, price, search_type)
+
+            return self._check_all_time_low_unlocked(price, route_key, search_type)
+
+    def _record_airline(self, airline: str, price: float, search_type: str):
+        with self._lock:
+            self._record_airline_unlocked(airline, price, search_type)
+
+    def _record_airline_unlocked(self, airline: str, price: float, search_type: str):
+        airlines = self.data.setdefault("airlines", {})
+        entry = airlines.setdefault(
+            airline,
             {
-                "observations": [],
+                "observations": 0,
                 "min_price_seen": None,
                 "max_price_seen": None,
                 "avg_price": None,
-                "search_type": search_type,
+                "search_types": {},
             },
         )
-        entry["observations"].append(
-            {"timestamp": ts, "price": price, "time_bucket": bucket}
+        entry["observations"] += 1
+        entry["search_types"][search_type] = entry["search_types"].get(search_type, 0) + 1
+        n = entry["observations"]
+        if entry["min_price_seen"] is None:
+            entry["min_price_seen"] = price
+            entry["max_price_seen"] = price
+            entry["avg_price"] = price
+        else:
+            entry["min_price_seen"] = min(entry["min_price_seen"], price)
+            entry["max_price_seen"] = max(entry["max_price_seen"], price)
+            entry["avg_price"] = round(
+                (entry["avg_price"] * (n - 1) + price) / n, 2
+            )
+
+    def weekday_summary(self) -> Dict[str, dict]:
+        """Min/avg fare by departure weekday from route observations."""
+        by_wd: Dict[str, List[float]] = defaultdict(list)
+        for entry in self.data.get("routes", {}).values():
+            for obs in entry.get("observations", []):
+                wd = obs.get("dep_weekday")
+                if wd:
+                    by_wd[wd].append(obs["price"])
+        summary = {}
+        for wd, prices in by_wd.items():
+            summary[wd] = {
+                "count": len(prices),
+                "min": min(prices),
+                "avg": round(sum(prices) / len(prices), 2),
+            }
+        return summary
+
+    def cheapest_airlines(self, top_n: int = 5) -> List[Tuple[str, float]]:
+        airlines = self.data.get("airlines", {})
+        ranked = sorted(
+            airlines.items(),
+            key=lambda x: x[1].get("avg_price") or 999999,
         )
-        prices = [o["price"] for o in entry["observations"]]
-        entry["min_price_seen"] = min(prices)
-        entry["max_price_seen"] = max(prices)
-        entry["avg_price"] = round(sum(prices) / len(prices), 2)
+        return [(name, info["avg_price"]) for name, info in ranked[:top_n]]
+
+    def volatile_routes(self, top_n: int = 40) -> List[Tuple[str, float]]:
+        """Routes with highest price volatility — prioritize for monitoring."""
+        scored = []
+        for route, info in self.data.get("routes", {}).items():
+            mn = info.get("min_price_seen")
+            mx = info.get("max_price_seen")
+            avg = info.get("avg_price")
+            n_obs = len(info.get("observations", []))
+            if mn and mx and avg and avg > 0 and n_obs >= 2:
+                scored.append((route, (mx - mn) / avg))
+        scored.sort(key=lambda x: -x[1])
+        return scored[:top_n]
+
+    def weekly_best(self) -> Optional[dict]:
+        week_ago = datetime.now() - timedelta(days=7)
+        best_price = None
+        best_route = None
+        for route, info in self.data.get("routes", {}).items():
+            for obs in info.get("observations", []):
+                try:
+                    ts = datetime.fromisoformat(obs["timestamp"])
+                except Exception:
+                    continue
+                if ts >= week_ago:
+                    p = obs["price"]
+                    if best_price is None or p < best_price:
+                        best_price = p
+                        best_route = route
+        if best_price is None:
+            return None
+        return {"route": best_route, "price": best_price}
+
+    def _check_all_time_low_unlocked(
+        self, price: float, route_key: str, search_type: str
+    ) -> Optional[str]:
+        best = self.data.get("all_time_best")
+        if best is None or price < best.get("price", 999999999):
+            self.data["all_time_best"] = {
+                "price": price,
+                "route": route_key,
+                "search_type": search_type,
+                "timestamp": datetime.now().isoformat(),
+            }
+            return (
+                f"NEW ALL-TIME LOW: Rs.{price:,.0f} on {route_key} ({search_type})"
+            )
+        return None
+
+    def check_effective_low(self, flight: "Flight") -> Optional[str]:
+        """Alert when effective total (fare + positioning) hits a new low."""
+        with self._lock:
+            eff = flight.effective_total
+            best = self.data.get("all_time_best_effective")
+            prev = best.get("effective_total") if best else None
+            if prev is None or eff < prev:
+                self.data["all_time_best_effective"] = {
+                    "effective_total": eff,
+                    "price_raw": flight.price_raw,
+                    "origin": flight.origin,
+                    "departure_date": flight.departure_date,
+                    "return_date": flight.return_date,
+                    "search_type": flight.search_type,
+                    "timestamp": datetime.now().isoformat(),
+                }
+                return (
+                    f"NEW BEST FROM AMD: Rs.{eff:,.0f} effective "
+                    f"({flight.origin} {flight.departure_date}-{flight.return_date})"
+                )
+            return None
+
+    def parse_route_key(self, route_key: str) -> Optional[Tuple[str, str, date, date]]:
+        """Parse 'ORIGIN->DEST|dep|ret' or 'ORIGIN->DEST|OW|dep|ret'."""
+        try:
+            if "|OW|" in route_key:
+                left, _, rest = route_key.partition("|OW|")
+                dep_s, ret_s = rest.split("|", 1)
+            else:
+                left, dep_s, ret_s = route_key.split("|", 2)
+            origin, dest_label = left.split("->", 1)
+            return origin, dest_label, date.fromisoformat(dep_s), date.fromisoformat(ret_s)
+        except Exception:
+            return None
 
     def record_run(self, phase: str, searches: int, flights: int):
-        self.data.setdefault("runs", []).append(
-            {
-                "timestamp": datetime.now().isoformat(),
-                "time_bucket": time_bucket(),
-                "phase": phase,
-                "searches": searches,
-                "flights_found": flights,
-            }
-        )
+        with self._lock:
+            self.data.setdefault("runs", []).append(
+                {
+                    "timestamp": datetime.now().isoformat(),
+                    "time_bucket": time_bucket(),
+                    "phase": phase,
+                    "searches": searches,
+                    "flights_found": flights,
+                }
+            )
 
 
 # ============================================================
@@ -390,12 +610,18 @@ def compute_value_score(
 # ============================================================
 
 class Searcher:
-    def __init__(self):
+    def __init__(self, budget: Optional[SearchBudget] = None):
         self.session = requests.Session()
         self.search_count = 0
         self.fail_count = 0
+        self.budget = budget
         self.positioning_cache: Dict[Tuple[str, str], float] = {}
         self._set_headers()
+
+    def _can_search(self) -> bool:
+        if self.budget is None:
+            return True
+        return self.budget.acquire()
 
     def _set_headers(self):
         vid = str(uuid.uuid4())
@@ -491,10 +717,13 @@ class Searcher:
         dest: str,
         travel_date: date,
         dest_entity: Optional[str] = None,
+        origin_entity: Optional[str] = None,
         quiet: bool = False,
     ) -> List[OneWayOption]:
+        if not self._can_search():
+            return []
         self.search_count += 1
-        o_eid = resolve_entity(origin)
+        o_eid = origin_entity or resolve_entity(origin)
         d_eid = dest_entity or resolve_entity(dest)
         if not o_eid or not d_eid:
             self.fail_count += 1
@@ -560,6 +789,8 @@ class Searcher:
         search_type: str = "roundtrip",
         home_airport: str = "AMD",
     ) -> List[Flight]:
+        if not self._can_search():
+            return []
         self.search_count += 1
         o_eid = resolve_entity(origin)
         if not o_eid or not dest_entity:
@@ -668,31 +899,321 @@ def build_all_dep_ret_dates() -> Tuple[List[date], List[date]]:
 
 def build_coarse_pairs() -> List[Tuple[date, date]]:
     dep_dates, ret_dates = build_all_dep_ret_dates()
-    coarse_deps = subsample_dates(dep_dates, COARSE_DAY_STEP)
-    coarse_rets = subsample_dates(ret_dates, COARSE_DAY_STEP)
+    weekday_deps = weekday_representatives(dep_dates)
+    weekday_rets = weekday_representatives(ret_dates)
+    step_deps = subsample_dates(dep_dates, COARSE_DAY_STEP)
+    step_rets = subsample_dates(ret_dates, COARSE_DAY_STEP)
+    coarse_deps = sorted(set(weekday_deps + step_deps))
+    coarse_rets = sorted(set(weekday_rets + step_rets))
     return valid_date_pairs(coarse_deps, coarse_rets)
 
 
 def find_promising_regions(
     flights: List[Flight], top_n: int = TOP_REGIONS
-) -> List[Tuple[str, str]]:
+) -> Tuple[List[Tuple[str, str]], Dict[Tuple[str, str], float]]:
     region_prices: Dict[Tuple[str, str], float] = {}
     for f in flights:
         key = (f.departure_date, f.return_date)
         region_prices[key] = min(region_prices.get(key, 999999999), f.price_raw)
     ranked = sorted(region_prices.items(), key=lambda x: x[1])
-    return [key for key, _ in ranked[:top_n]]
+    regions = [key for key, _ in ranked[:top_n]]
+    prices = dict(ranked[:top_n])
+    return regions, prices
 
 
-def build_refine_pairs(regions: List[Tuple[str, str]]) -> List[Tuple[date, date]]:
-    pairs: Set[Tuple[date, date]] = set()
+def adaptive_region_count(region_prices: Dict[Tuple[str, str], float]) -> int:
+    """Expand to 20 regions only when top-10 prices cluster tightly."""
+    if len(region_prices) < 2:
+        return TOP_REGIONS
+    top_prices = sorted(region_prices.values())[:TOP_REGIONS]
+    if len(top_prices) < 2:
+        return TOP_REGIONS
+    spread = (max(top_prices) - min(top_prices)) / max(min(top_prices), 1)
+    if spread <= CLUSTER_PRICE_SPREAD:
+        print(f"  Clustered fares (spread {spread:.1%}) — expanding to {TOP_REGIONS_EXPANDED} regions")
+        return TOP_REGIONS_EXPANDED
+    return TOP_REGIONS
+
+
+def build_refine_pairs(
+    regions: List[Tuple[str, str]],
+    region_prices: Dict[Tuple[str, str], float],
+    budget: int = ADAPTIVE_REFINE_BUDGET,
+) -> List[Tuple[date, date]]:
+    """Adaptive refinement: tighter radius on expensive regions, wider on cheap clusters."""
+    if not regions:
+        return []
+
+    min_price = min(region_prices.get(r, 999999999) for r in regions)
+    weighted: List[Tuple[float, Tuple[date, date]]] = []
+
     for dep_str, ret_str in regions:
+        price = region_prices.get((dep_str, ret_str), 999999999)
         dep = date.fromisoformat(dep_str)
         ret = date.fromisoformat(ret_str)
-        dep_candidates = expand_date(dep, REFINE_RADIUS_DAYS, DEP_START, DEP_END)
-        ret_candidates = expand_date(ret, REFINE_RADIUS_DAYS, RET_START, RET_END)
-        pairs.update(valid_date_pairs(dep_candidates, ret_candidates))
-    return sorted(pairs)
+        radius = REFINE_RADIUS_CLUSTERED if price <= min_price * 1.03 else REFINE_RADIUS_DAYS
+        dep_candidates = expand_date(dep, radius, DEP_START, DEP_END)
+        ret_candidates = expand_date(ret, radius, RET_START, RET_END)
+        weight = min_price / max(price, 1)
+        for pair in valid_date_pairs(dep_candidates, ret_candidates):
+            weighted.append((weight, pair))
+
+    weighted.sort(key=lambda x: (-x[0], x[1]))
+    seen: Set[Tuple[date, date]] = set()
+    result: List[Tuple[date, date]] = []
+    for _, pair in weighted:
+        if pair in seen:
+            continue
+        seen.add(pair)
+        result.append(pair)
+        if len(result) >= budget:
+            break
+    return result
+
+
+def seed_oneway_targets(flights: List[Flight], top_n: int = ONEWAY_SEED_COUNT) -> List[Flight]:
+    """Pick one-way decomposition targets from cheapest refined round trips."""
+    refined = [
+        f for f in flights
+        if f.search_type in ("roundtrip", "roundtrip_refined")
+    ]
+    top = sorted(refined, key=lambda f: f.price_raw)[:top_n * 2]
+    seen: Set[Tuple[str, str, str, str]] = set()
+    targets: List[Flight] = []
+    for f in top:
+        key = (f.origin, f.departure_date, f.return_date, f.dest_label)
+        if key in seen:
+            continue
+        seen.add(key)
+        targets.append(f)
+        if len(targets) >= top_n:
+            break
+    return targets
+
+
+def emit_alert(message: str, alerts: List[str]):
+    alerts.append(message)
+    print(f"\n  *** ALERT: {message} ***", flush=True)
+
+
+def save_alerts(alerts: List[str]):
+    if not alerts:
+        return
+    existing = []
+    if os.path.exists(ALERTS_PATH):
+        try:
+            with open(ALERTS_PATH, "r", encoding="utf-8") as f:
+                existing = json.load(f)
+        except Exception:
+            pass
+    existing.extend(
+        {"timestamp": datetime.now().isoformat(), "message": m} for m in alerts
+    )
+    with open(ALERTS_PATH, "w", encoding="utf-8") as f:
+        json.dump(existing, f, indent=2, ensure_ascii=False)
+    print(f"  Alerts saved: {ALERTS_PATH}")
+
+
+def process_search_result(
+    flights: List[Flight],
+    origin: str,
+    dest_label: str,
+    dep: date,
+    ret: date,
+    search_type: str,
+    price_history: Optional[PriceHistory],
+    alerts: Optional[List[str]],
+) -> None:
+    if not flights:
+        return
+    best_f = min(flights, key=lambda x: x.price_raw)
+    route_key = f"{origin}->{dest_label}|{dep}|{ret}"
+    if price_history:
+        carriers = f"{best_f.outbound_carriers}, {best_f.return_carriers}"
+        msg = price_history.record(
+            route_key, best_f.price_raw, search_type,
+            dep_date=str(dep), carriers=carriers,
+        )
+        if msg and alerts is not None:
+            emit_alert(msg, alerts)
+        eff_msg = price_history.check_effective_low(best_f)
+        if eff_msg and alerts is not None:
+            emit_alert(eff_msg, alerts)
+
+
+def build_monte_carlo_combos(
+    price_history: PriceHistory,
+    valid_origins: List[str],
+    dest_variants: List[Tuple[str, str]],
+    full_pairs: List[Tuple[date, date]],
+    dest_entity_map: Dict[str, str],
+    n_samples: int = MONTE_CARLO_SAMPLES,
+) -> List[Tuple[str, str, str, date, date]]:
+    """Mix volatile routes from history with random exploration."""
+    combos: List[Tuple[str, str, str, date, date]] = []
+    seen: Set[Tuple[str, str, date, date]] = set()
+
+    n_volatile = int(n_samples * MONTE_CARLO_VOLATILE_FRACTION)
+    for route, vol in price_history.volatile_routes(n_volatile * 2):
+        parsed = price_history.parse_route_key(route)
+        if not parsed:
+            continue
+        origin, dest_label, dep, ret = parsed
+        if origin not in valid_origins and not origin.startswith("AMD"):
+            continue
+        dest_eid = dest_entity_map.get(dest_label) or resolve_entity("MRU")
+        key = (origin, dest_label, dep, ret)
+        if key in seen:
+            continue
+        seen.add(key)
+        combos.append((origin, dest_label, dest_eid, dep, ret))
+        if len(combos) >= n_volatile:
+            break
+
+    pool = [
+        (o, dl, de, d, r)
+        for o, (dl, de), (d, r) in product(valid_origins, dest_variants, full_pairs)
+    ]
+    random.shuffle(pool)
+    for item in pool:
+        key = (item[0], item[1], item[3], item[4])
+        if key in seen:
+            continue
+        seen.add(key)
+        combos.append(item)
+        if len(combos) >= n_samples:
+            break
+
+    print(
+        f"  Monte Carlo: {len(combos)} combos "
+        f"({min(len(combos), n_volatile)} volatile-biased + random)"
+    )
+    return combos
+
+
+def run_monte_carlo_monitor(
+    budget: SearchBudget,
+    valid_origins: List[str],
+    dest_variants: List[Tuple[str, str]],
+    full_pairs: List[Tuple[date, date]],
+    dest_entity_map: Dict[str, str],
+    price_history: PriceHistory,
+    workers: int,
+    n_samples: int,
+    alerts: List[str],
+) -> List[Flight]:
+    combos = build_monte_carlo_combos(
+        price_history, valid_origins, dest_variants, full_pairs,
+        dest_entity_map, n_samples,
+    )
+    return run_search_batch(
+        Searcher(budget=budget),
+        [],
+        [],
+        [],
+        search_type="monte_carlo",
+        label=f"Monte Carlo Monitor ({len(combos)} samples)",
+        price_history=price_history,
+        checkpoint_every=0,
+        explicit_combos=combos,
+        budget=budget,
+        workers=workers,
+        alerts=alerts,
+    )
+
+
+def run_hub_graph_search(
+    searcher: Searcher,
+    hubs: List[str],
+    dest_eid: str,
+    dest_label: str,
+    date_pairs: List[Tuple[date, date]],
+    price_history: Optional[PriceHistory] = None,
+    alerts: Optional[List[str]] = None,
+) -> List[Flight]:
+    """
+    Graph routing: AMD→hub→MRU→hub→AMD as four independent one-way legs.
+    Finds cheapest hub path for Ahmedabad travelers.
+    """
+    print(f"\n--- Phase 7: Hub Graph (AMD→hub→MRU→hub→AMD) ---")
+    results: List[Flight] = []
+
+    for hub in hubs:
+        for dep, ret in date_pairs[:HUB_GRAPH_MAX_PAIRS]:
+            if searcher.budget and searcher.budget.exhausted:
+                print("  Budget exhausted — stopping hub graph")
+                return results
+
+            amd_hub = searcher.search_oneway("AMD", hub, dep, quiet=True)
+            hub_mru = searcher.search_oneway(
+                hub, "MRU", dep, dest_entity=dest_eid, quiet=True
+            )
+            mru_hub = searcher.search_oneway(
+                "MRU", hub, ret, origin_entity=dest_eid, quiet=True
+            )
+            hub_amd = searcher.search_oneway(hub, "AMD", ret, quiet=True)
+            time.sleep(random.uniform(MIN_DELAY, MAX_DELAY))
+
+            if not (amd_hub and hub_mru and mru_hub and hub_amd):
+                continue
+
+            l1 = min(amd_hub, key=lambda o: o.price_raw)
+            l2 = min(hub_mru, key=lambda o: o.price_raw)
+            l3 = min(mru_hub, key=lambda o: o.price_raw)
+            l4 = min(hub_amd, key=lambda o: o.price_raw)
+            total = l1.price_raw + l2.price_raw + l3.price_raw + l4.price_raw
+            trip_days = (ret - dep).days
+            ts = l1.stops + l2.stops + l3.stops + l4.stops
+            td = l1.duration + l2.duration + l3.duration + l4.duration
+
+            chain = Flight(
+                itinerary_id=f"hub_{hub}_{dep}_{ret}",
+                origin=f"AMD(via {hub} graph)",
+                destination=dest_label,
+                dest_label=dest_label,
+                departure_date=str(dep),
+                return_date=str(ret),
+                trip_days=trip_days,
+                price_raw=total,
+                price_formatted=f"Rs.{total:,.0f}",
+                positioning_cost=int(l1.price_raw),
+                effective_total=total,
+                outbound_duration=l1.duration + l2.duration,
+                return_duration=l3.duration + l4.duration,
+                total_duration=td,
+                outbound_stops=l1.stops + l2.stops,
+                return_stops=l3.stops + l4.stops,
+                total_stops=ts,
+                outbound_carriers=f"{l1.carriers}/{l2.carriers}",
+                return_carriers=f"{l3.carriers}/{l4.carriers}",
+                outbound_departure=l1.departure,
+                outbound_arrival=l2.arrival,
+                return_departure=l3.departure,
+                return_arrival=l4.arrival,
+                search_type="hub_graph",
+                value_score=compute_value_score(
+                    total, ts, td, int(l1.price_raw), "international_gateway"
+                ),
+                positioning_source="live",
+            )
+            results.append(chain)
+            route_key = f"AMD~{hub}~{dest_label}|graph|{dep}|{ret}"
+            if price_history:
+                msg = price_history.record(
+                    route_key, total, "hub_graph",
+                    dep_date=str(dep), carriers=chain.outbound_carriers,
+                )
+                if msg and alerts is not None:
+                    emit_alert(msg, alerts)
+                eff_msg = price_history.check_effective_low(chain)
+                if eff_msg and alerts is not None:
+                    emit_alert(eff_msg, alerts)
+            print(
+                f"  AMD→{hub}→MRU→{hub}→AMD {dep}-{ret}: Rs.{total:,.0f}",
+                flush=True,
+            )
+
+    return results
 
 
 def run_search_batch(
@@ -706,68 +1227,116 @@ def run_search_batch(
     checkpoint_every: int = 100,
     start_index: int = 0,
     existing_flights: Optional[List[Flight]] = None,
+    explicit_combos: Optional[List[Tuple[str, str, str, date, date]]] = None,
+    budget: Optional[SearchBudget] = None,
+    workers: int = 1,
+    alerts: Optional[List[str]] = None,
 ) -> List[Flight]:
-    combos = [
-        (origin, dest_label, dest_eid, dep, ret)
-        for origin, (dest_label, dest_eid), (dep, ret) in product(
-            origins, dest_variants, date_pairs
-        )
-    ]
+    if explicit_combos is not None:
+        combos = explicit_combos
+    else:
+        combos = [
+            (origin, dest_label, dest_eid, dep, ret)
+            for origin, (dest_label, dest_eid), (dep, ret) in product(
+                origins, dest_variants, date_pairs
+            )
+        ]
     total = len(combos)
     all_flights = list(existing_flights or [])
     t_start = time.time()
+    budget = budget or searcher.budget
 
-    print(f"\n--- {label} ({total} searches) ---")
+    print(f"\n--- {label} ({total} searches, workers={workers}) ---")
+    if budget:
+        print(f"  API budget: {budget.remaining()} / {budget.max_calls} remaining")
     if start_index:
         print(f"  Resuming from search #{start_index}")
 
-    for i, (origin, dest_label, dest_eid, dep, ret) in enumerate(combos):
-        if i < start_index:
-            continue
-
-        if i % 10 == 0:
-            elapsed = time.time() - t_start
-            rate = max((i + 1 - start_index) / max(elapsed, 1), 0.001)
-            eta_m = (total - i) / rate / 60
-            print(
-                f"\n  [{i+1}/{total}] {i/total*100:.0f}% | "
-                f"Flights: {len(all_flights)} | Fails: {searcher.fail_count} | "
-                f"ETA: {eta_m:.0f}m",
-                flush=True,
-            )
-
-        flights = searcher.search_roundtrip(
+    def do_one(combo):
+        origin, dest_label, dest_eid, dep, ret = combo
+        local = Searcher(budget=budget)
+        flights = local.search_roundtrip(
             origin, dest_eid, dest_label, dep, ret, search_type=search_type
         )
-        all_flights.extend(flights)
+        return flights, origin, dest_label, dep, ret, local.fail_count
 
-        if flights:
-            best = min(f.price_raw for f in flights)
-            route_key = f"{origin}->{dest_label}|{dep}|{ret}"
-            if price_history:
-                price_history.record(route_key, best, search_type)
-            print(
-                f"  {origin}->{dest_label} {dep.strftime('%m/%d')}-"
-                f"{ret.strftime('%m/%d')} {len(flights):3d}fl Rs.{best:,.0f}",
-                flush=True,
-            )
-        else:
-            print(
-                f"  {origin}->{dest_label} {dep.strftime('%m/%d')}-"
-                f"{ret.strftime('%m/%d')} FAIL",
-                flush=True,
-            )
+    if workers <= 1:
+        for i, combo in enumerate(combos):
+            if i < start_index:
+                continue
+            if budget and budget.exhausted:
+                print(f"\n  API budget exhausted at search {i+1}/{total}")
+                break
 
-        time.sleep(random.uniform(MIN_DELAY, MAX_DELAY))
+            if i % 10 == 0:
+                elapsed = time.time() - t_start
+                rate = max((i + 1 - start_index) / max(elapsed, 1), 0.001)
+                eta_m = (total - i) / rate / 60
+                print(
+                    f"\n  [{i+1}/{total}] {i/total*100:.0f}% | "
+                    f"Flights: {len(all_flights)} | Fails: {searcher.fail_count} | "
+                    f"Budget: {budget.remaining() if budget else '∞'} | ETA: {eta_m:.0f}m",
+                    flush=True,
+                )
 
-        if checkpoint_every and (i + 1) % checkpoint_every == 0:
-            save_checkpoint(
-                phase=label,
-                index=i + 1,
-                total=total,
-                flights=all_flights,
-                searcher=searcher,
+            flights = searcher.search_roundtrip(
+                combo[0], combo[2], combo[1], combo[3], combo[4],
+                search_type=search_type,
             )
+            all_flights.extend(flights)
+            process_search_result(
+                flights, combo[0], combo[1], combo[3], combo[4],
+                search_type, price_history, alerts,
+            )
+            if flights:
+                best = min(f.price_raw for f in flights)
+                print(
+                    f"  {combo[0]}->{combo[1]} {combo[3].strftime('%m/%d')}-"
+                    f"{combo[4].strftime('%m/%d')} {len(flights):3d}fl Rs.{best:,.0f}",
+                    flush=True,
+                )
+            else:
+                print(
+                    f"  {combo[0]}->{combo[1]} {combo[3].strftime('%m/%d')}-"
+                    f"{combo[4].strftime('%m/%d')} FAIL",
+                    flush=True,
+                )
+
+            time.sleep(random.uniform(MIN_DELAY, MAX_DELAY))
+
+            if checkpoint_every and (i + 1) % checkpoint_every == 0:
+                save_checkpoint(
+                    phase=label, index=i + 1, total=total,
+                    flights=all_flights, searcher=searcher,
+                )
+    else:
+        pending = combos[start_index:]
+        done = start_index
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            futures = {pool.submit(do_one, c): c for c in pending}
+            for fut in as_completed(futures):
+                if budget and budget.exhausted:
+                    for f in futures:
+                        f.cancel()
+                    break
+                try:
+                    flights, origin, dest_label, dep, ret, fails = fut.result()
+                except Exception:
+                    searcher.fail_count += 1
+                    continue
+                searcher.fail_count += fails
+                done += 1
+                all_flights.extend(flights)
+                process_search_result(
+                    flights, origin, dest_label, dep, ret,
+                    search_type, price_history, alerts,
+                )
+                if done % 10 == 0:
+                    print(
+                        f"  [{done}/{total}] Flights: {len(all_flights)} | "
+                        f"Budget: {budget.remaining() if budget else '∞'}",
+                        flush=True,
+                    )
 
     return all_flights
 
@@ -793,77 +1362,173 @@ def run_positioning_fares(
 
 def run_oneway_combos(
     searcher: Searcher,
-    origins: List[str],
-    dest_variants: List[Tuple[str, str]],
-    date_pairs: List[Tuple[date, date]],
+    targets: List[Flight],
+    dest_entity_map: Dict[str, str],
     price_history: Optional[PriceHistory] = None,
-    max_pairs: int = 30,
 ) -> List[Flight]:
-    print(f"\n--- Phase 5: One-Way Combinations ---")
-    limited_pairs = date_pairs[:max_pairs]
+    print(f"\n--- Phase 5: One-Way Combinations ({len(targets)} seeds from refined RT) ---")
     combined: List[Flight] = []
 
-    for origin in origins:
-        for dest_label, dest_eid in dest_variants:
-            for dep, ret in limited_pairs:
-                outbound = searcher.search_oneway(
-                    origin, "MRU", dep, dest_entity=dest_eid
-                )
-                inbound = searcher.search_oneway("MRU", origin, ret)
-                time.sleep(random.uniform(MIN_DELAY, MAX_DELAY))
+    for seed in targets:
+        origin = seed.origin
+        dest_label = seed.dest_label
+        dest_eid = dest_entity_map.get(dest_label) or resolve_entity("MRU")
+        dep = date.fromisoformat(seed.departure_date)
+        ret = date.fromisoformat(seed.return_date)
 
-                if not outbound or not inbound:
-                    continue
+        outbound = searcher.search_oneway(
+            origin, "MRU", dep, dest_entity=dest_eid
+        )
+        inbound = searcher.search_oneway(
+            "MRU", origin, ret, origin_entity=dest_eid
+        )
+        time.sleep(random.uniform(MIN_DELAY, MAX_DELAY))
 
-                best_ob = min(outbound, key=lambda o: o.price_raw)
-                best_ib = min(inbound, key=lambda o: o.price_raw)
-                total_price = best_ob.price_raw + best_ib.price_raw
-                trip_days = (ret - dep).days
-                pos_cost, pos_source = searcher.get_positioning_cost(origin, dep)
-                ts = best_ob.stops + best_ib.stops
-                td = best_ob.duration + best_ib.duration
+        if not outbound or not inbound:
+            continue
 
-                combo = Flight(
-                    itinerary_id=f"ow_{best_ob.itinerary_id}_{best_ib.itinerary_id}",
-                    origin=origin,
-                    destination=dest_label,
-                    dest_label=dest_label,
-                    departure_date=str(dep),
-                    return_date=str(ret),
-                    trip_days=trip_days,
-                    price_raw=total_price,
-                    price_formatted=f"Rs.{total_price:,.0f}",
-                    positioning_cost=pos_cost,
-                    effective_total=total_price + pos_cost,
-                    outbound_duration=best_ob.duration,
-                    return_duration=best_ib.duration,
-                    total_duration=td,
-                    outbound_stops=best_ob.stops,
-                    return_stops=best_ib.stops,
-                    total_stops=ts,
-                    outbound_carriers=best_ob.carriers,
-                    return_carriers=best_ib.carriers,
-                    outbound_departure=best_ob.departure,
-                    outbound_arrival=best_ob.arrival,
-                    return_departure=best_ib.departure,
-                    return_arrival=best_ib.arrival,
-                    search_type="oneway_combo",
-                    value_score=compute_value_score(
-                        total_price, ts, td, pos_cost, "oneway_combo"
-                    ),
-                    positioning_source=pos_source,
-                )
-                combined.append(combo)
-                route_key = f"{origin}->{dest_label}|OW|{dep}|{ret}"
-                if price_history:
-                    price_history.record(route_key, total_price, "oneway_combo")
-                print(
-                    f"  {origin}->{dest_label} OW {dep}-{ret}: "
-                    f"Rs.{total_price:,.0f} ({best_ob.carriers}/{best_ib.carriers})",
-                    flush=True,
-                )
+        best_ob = min(outbound, key=lambda o: o.price_raw)
+        best_ib = min(inbound, key=lambda o: o.price_raw)
+        total_price = best_ob.price_raw + best_ib.price_raw
+        rt_price = seed.price_raw
+        if total_price >= rt_price:
+            continue
+
+        trip_days = (ret - dep).days
+        pos_cost, pos_source = searcher.get_positioning_cost(origin, dep)
+        ts = best_ob.stops + best_ib.stops
+        td = best_ob.duration + best_ib.duration
+
+        combo = Flight(
+            itinerary_id=f"ow_{best_ob.itinerary_id}_{best_ib.itinerary_id}",
+            origin=origin,
+            destination=dest_label,
+            dest_label=dest_label,
+            departure_date=str(dep),
+            return_date=str(ret),
+            trip_days=trip_days,
+            price_raw=total_price,
+            price_formatted=f"Rs.{total_price:,.0f}",
+            positioning_cost=pos_cost,
+            effective_total=total_price + pos_cost,
+            outbound_duration=best_ob.duration,
+            return_duration=best_ib.duration,
+            total_duration=td,
+            outbound_stops=best_ob.stops,
+            return_stops=best_ib.stops,
+            total_stops=ts,
+            outbound_carriers=best_ob.carriers,
+            return_carriers=best_ib.carriers,
+            outbound_departure=best_ob.departure,
+            outbound_arrival=best_ob.arrival,
+            return_departure=best_ib.departure,
+            return_arrival=best_ib.arrival,
+            search_type="oneway_combo",
+            value_score=compute_value_score(
+                total_price, ts, td, pos_cost, "oneway_combo"
+            ),
+            positioning_source=pos_source,
+        )
+        combined.append(combo)
+        route_key = f"{origin}->{dest_label}|OW|{dep}|{ret}"
+        if price_history:
+            price_history.record(
+                route_key, total_price, "oneway_combo",
+                dep_date=str(dep),
+                carriers=f"{best_ob.carriers}, {best_ib.carriers}",
+            )
+        savings = rt_price - total_price
+        print(
+            f"  {origin}->{dest_label} OW {dep}-{ret}: "
+            f"Rs.{total_price:,.0f} (saves Rs.{savings:,.0f} vs RT) "
+            f"({best_ob.carriers}/{best_ib.carriers})",
+            flush=True,
+        )
 
     return combined
+
+
+def run_gateway_oneway_chains(
+    searcher: Searcher,
+    gateways: List[str],
+    dest_eid: str,
+    dest_label: str,
+    date_pairs: List[Tuple[date, date]],
+    price_history: Optional[PriceHistory] = None,
+    max_pairs: int = 10,
+) -> List[Flight]:
+    """Full 4-leg chain: AMD→GW→MRU→GW→AMD via one-way searches."""
+    print(f"\n--- Phase 6c: Full Gateway One-Way Chains ---")
+    chained: List[Flight] = []
+
+    for gateway in gateways:
+        for dep, ret in date_pairs[:max_pairs]:
+            amd_gw = searcher.search_oneway("AMD", gateway, dep, quiet=True)
+            gw_mru = searcher.search_oneway(
+                gateway, "MRU", dep, dest_entity=dest_eid, quiet=True
+            )
+            mru_gw = searcher.search_oneway(
+                "MRU", gateway, ret, origin_entity=dest_eid, quiet=True
+            )
+            gw_amd = searcher.search_oneway(gateway, "AMD", ret, quiet=True)
+            time.sleep(random.uniform(MIN_DELAY, MAX_DELAY))
+
+            if not (amd_gw and gw_mru and mru_gw and gw_amd):
+                continue
+
+            l1 = min(amd_gw, key=lambda o: o.price_raw)
+            l2 = min(gw_mru, key=lambda o: o.price_raw)
+            l3 = min(mru_gw, key=lambda o: o.price_raw)
+            l4 = min(gw_amd, key=lambda o: o.price_raw)
+            total = l1.price_raw + l2.price_raw + l3.price_raw + l4.price_raw
+            trip_days = (ret - dep).days
+            ts = l1.stops + l2.stops + l3.stops + l4.stops
+            td = l1.duration + l2.duration + l3.duration + l4.duration
+
+            chain = Flight(
+                itinerary_id=f"gw4_{gateway}_{dep}_{ret}",
+                origin=f"AMD(via {gateway} 4-leg)",
+                destination=dest_label,
+                dest_label=dest_label,
+                departure_date=str(dep),
+                return_date=str(ret),
+                trip_days=trip_days,
+                price_raw=total,
+                price_formatted=f"Rs.{total:,.0f}",
+                positioning_cost=int(l1.price_raw),
+                effective_total=total,
+                outbound_duration=l1.duration + l2.duration,
+                return_duration=l3.duration + l4.duration,
+                total_duration=td,
+                outbound_stops=l1.stops + l2.stops,
+                return_stops=l3.stops + l4.stops,
+                total_stops=ts,
+                outbound_carriers=f"{l1.carriers}/{l2.carriers}",
+                return_carriers=f"{l3.carriers}/{l4.carriers}",
+                outbound_departure=l1.departure,
+                outbound_arrival=l2.arrival,
+                return_departure=l3.departure,
+                return_arrival=l4.arrival,
+                search_type="international_gateway",
+                value_score=compute_value_score(
+                    total, ts, td, int(l1.price_raw), "international_gateway"
+                ),
+                positioning_source="live",
+            )
+            chained.append(chain)
+            route_key = f"AMD->{gateway}->{dest_label}|4leg|{dep}|{ret}"
+            if price_history:
+                price_history.record(
+                    route_key, total, "international_gateway",
+                    dep_date=str(dep),
+                    carriers=f"{l1.carriers}, {l2.carriers}, {l3.carriers}, {l4.carriers}",
+                )
+            print(
+                f"  AMD→{gateway}→MRU→{gateway}→AMD {dep}-{ret}: Rs.{total:,.0f}",
+                flush=True,
+            )
+
+    return chained
 
 
 def run_international_gateway_search(
@@ -873,26 +1538,30 @@ def run_international_gateway_search(
     date_pairs: List[Tuple[date, date]],
     price_history: Optional[PriceHistory] = None,
 ) -> List[Flight]:
+    dest_label, dest_eid = dest_variants[0]
+
     gateway_flights = run_search_batch(
         searcher,
         gateways,
         dest_variants,
-        date_pairs[:20],
+        date_pairs[:12],
         search_type="international_gateway",
         label="Phase 6: International Gateways",
         price_history=price_history,
         checkpoint_every=0,
     )
 
-    print("\n--- Phase 6b: AMD -> Gateway -> Mauritius chains ---")
+    print("\n--- Phase 6b: AMD -> Gateway -> Mauritius (RT positioning add-on) ---")
     chained: List[Flight] = []
-    for gw_f in sorted(gateway_flights, key=lambda f: f.price_raw)[:10]:
+    for gw_f in sorted(gateway_flights, key=lambda f: f.price_raw)[:8]:
         dep = date.fromisoformat(gw_f.departure_date)
+        ret = date.fromisoformat(gw_f.return_date)
         amd_to_gw = searcher.fetch_positioning_fare("AMD", gw_f.origin, dep)
-        if amd_to_gw is None:
-            amd_to_gw = POSITIONING_ESTIMATES.get(gw_f.origin, 8000)
-        pos_source = "live" if amd_to_gw != POSITIONING_ESTIMATES.get(gw_f.origin) else "estimate"
-        pos_int = int(amd_to_gw)
+        gw_to_amd = searcher.fetch_positioning_fare(gw_f.origin, "AMD", ret)
+        amd_out = amd_to_gw if amd_to_gw is not None else POSITIONING_ESTIMATES.get(gw_f.origin, 8000)
+        amd_back = gw_to_amd if gw_to_amd is not None else POSITIONING_ESTIMATES.get(gw_f.origin, 8000)
+        pos_int = int(amd_out + amd_back)
+        pos_source = "live" if amd_to_gw is not None else "estimate"
         total = gw_f.price_raw + pos_int
         chained.append(
             Flight(
@@ -931,11 +1600,16 @@ def run_international_gateway_search(
             )
         )
         print(
-            f"  AMD->{gw_f.origin}->{gw_f.destination} "
-            f"{gw_f.departure_date}-{gw_f.return_date}: Rs.{total:,.0f}",
+            f"  AMD↔{gw_f.origin}↔MRU {gw_f.departure_date}-{gw_f.return_date}: "
+            f"Rs.{total:,.0f} (pos out={amd_out:,.0f} back={amd_back:,.0f})",
             flush=True,
         )
-    return gateway_flights + chained
+
+    four_leg = run_gateway_oneway_chains(
+        searcher, gateways, dest_eid, dest_label,
+        date_pairs[:8], price_history=price_history,
+    )
+    return gateway_flights + chained + four_leg
 
 
 # ============================================================
@@ -1118,6 +1792,8 @@ def export_results(
                 "top_50_cheapest": [asdict(f) for f in cheapest[:50]],
                 "top_20_effective": [asdict(f) for f in by_effective[:20]],
                 "price_history_summary": price_history.data.get("routes", {}),
+                "weekday_summary": price_history.weekday_summary(),
+                "airline_summary": price_history.data.get("airlines", {}),
             },
             f,
             indent=2,
@@ -1134,12 +1810,15 @@ def export_results(
 # ============================================================
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Mauritius trip optimizer v2")
+    parser = argparse.ArgumentParser(description="Mauritius trip optimizer v3")
     parser.add_argument(
         "--phase",
-        choices=["all", "coarse", "refine", "positioning", "oneway", "gateway", "monitor"],
+        choices=[
+            "all", "coarse", "refine", "positioning", "oneway",
+            "gateway", "hub_graph", "monitor", "monte",
+        ],
         default="all",
-        help="Which pipeline phase to run (default: all)",
+        help="Pipeline phase (monitor/monte = daily Monte Carlo sampling)",
     )
     parser.add_argument(
         "--skip-gateway",
@@ -1152,9 +1831,32 @@ def parse_args():
         help="Skip one-way combination search",
     )
     parser.add_argument(
+        "--skip-hub-graph",
+        action="store_true",
+        help="Skip AMD→hub→MRU graph routing",
+    )
+    parser.add_argument(
         "--resume",
         action="store_true",
         help="Resume from latest checkpoint if available",
+    )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=CONCURRENT_WORKERS,
+        help=f"Parallel search threads (default: {CONCURRENT_WORKERS})",
+    )
+    parser.add_argument(
+        "--max-calls",
+        type=int,
+        default=MAX_TOTAL_API_CALLS,
+        help=f"Global API call cap (default: {MAX_TOTAL_API_CALLS})",
+    )
+    parser.add_argument(
+        "--monte-samples",
+        type=int,
+        default=MONTE_CARLO_SAMPLES,
+        help=f"Monte Carlo monitor sample count (default: {MONTE_CARLO_SAMPLES})",
     )
     return parser.parse_args()
 
@@ -1162,15 +1864,18 @@ def parse_args():
 def main():
     args = parse_args()
     t_start = time.time()
+    alerts: List[str] = []
+    budget = SearchBudget(max_calls=args.max_calls)
+    workers = max(1, args.workers)
 
     print("=" * 70)
-    print("MAURITIUS TRIP OPTIMIZER v2")
+    print("MAURITIUS TRIP OPTIMIZER v3")
     print(f"Started: {datetime.now().isoformat()}")
-    print(f"Phase: {args.phase}")
+    print(f"Phase: {args.phase} | Workers: {workers} | Budget: {args.max_calls} API calls")
     print("=" * 70)
 
     price_history = PriceHistory()
-    searcher = Searcher()
+    searcher = Searcher(budget=budget)
     all_flights: List[Flight] = []
 
     if args.resume:
@@ -1203,15 +1908,26 @@ def main():
 
     print(f"\nDate space: {len(dep_dates)} departures × {len(ret_dates)} returns")
     print(f"  Valid pairs ({MIN_TRIP_DAYS}-{MAX_TRIP_DAYS} days): {len(full_pairs)}")
-    print(f"  Coarse pairs (every {COARSE_DAY_STEP} days): {len(coarse_pairs)}")
+    print(f"  Coarse pairs (weekday reps + every {COARSE_DAY_STEP} days): {len(coarse_pairs)}")
 
-    run_coarse = args.phase in ("all", "coarse", "monitor")
+    dest_entity_map = {label: eid for label, eid in dest_variants}
+
+    is_monitor = args.phase in ("monitor", "monte")
+    run_coarse = args.phase in ("all", "coarse") and not is_monitor
     run_refine = args.phase in ("all", "refine")
     run_positioning = args.phase in ("all", "positioning")
     run_oneway = args.phase in ("all", "oneway") and not args.skip_oneway
     run_gateway = args.phase in ("all", "gateway") and not args.skip_gateway
+    run_hub = args.phase in ("all", "hub_graph") and not args.skip_hub_graph
 
-    if run_coarse:
+    if is_monitor:
+        mc_flights = run_monte_carlo_monitor(
+            budget, valid_origins, dest_variants, full_pairs,
+            dest_entity_map, price_history, workers, args.monte_samples, alerts,
+        )
+        all_flights.extend(mc_flights)
+        price_history.record_run("monte_carlo", budget.used, len(mc_flights))
+    elif run_coarse:
         coarse_flights = run_search_batch(
             searcher,
             valid_origins,
@@ -1220,74 +1936,105 @@ def main():
             search_type="roundtrip",
             label="Phase 1: Coarse Date Scan",
             price_history=price_history,
+            budget=budget,
+            workers=workers,
+            alerts=alerts,
         )
         all_flights.extend(coarse_flights)
-        price_history.record_run("coarse", searcher.search_count, len(coarse_flights))
+        price_history.record_run("coarse", budget.used, len(coarse_flights))
 
     refine_pairs = coarse_pairs
-    if run_refine and all_flights:
-        regions = find_promising_regions(all_flights)
-        refine_pairs = build_refine_pairs(regions)
-        print(f"\n  Refining {len(regions)} regions -> {len(refine_pairs)} date pairs")
+    region_prices: Dict[Tuple[str, str], float] = {}
+    if run_refine and all_flights and not budget.exhausted:
+        regions, region_prices = find_promising_regions(all_flights, TOP_REGIONS)
+        n_regions = adaptive_region_count(region_prices)
+        if n_regions > TOP_REGIONS:
+            all_regions, all_prices = find_promising_regions(all_flights, n_regions)
+            regions, region_prices = all_regions, all_prices
+        refine_pairs = build_refine_pairs(regions, region_prices)
+        print(f"\n  Refining {len(regions)} regions -> {len(refine_pairs)} date pairs (budget {ADAPTIVE_REFINE_BUDGET})")
         refine_flights = run_search_batch(
             searcher,
             valid_origins,
             dest_variants,
             refine_pairs,
             search_type="roundtrip_refined",
-            label="Phase 2: Local Refinement",
+            label="Phase 2: Adaptive Local Refinement",
             price_history=price_history,
+            budget=budget,
+            workers=workers,
+            alerts=alerts,
         )
         all_flights.extend(refine_flights)
-        price_history.record_run("refine", searcher.search_count, len(refine_flights))
+        price_history.record_run("refine", budget.used, len(refine_flights))
 
     positioning_dates = sorted({dep for dep, _ in refine_pairs})
-    if run_positioning:
+    if run_positioning and not budget.exhausted:
         run_positioning_fares(searcher, POSITIONING_HUBS, positioning_dates[:15])
         for f in all_flights:
-            if f.origin != "AMD":
-                pos, src = searcher.get_positioning_cost(f.origin, date.fromisoformat(f.departure_date))
-                f.positioning_cost = pos
-                f.positioning_source = src
-                f.effective_total = f.price_raw + pos
-                f.value_score = compute_value_score(
-                    f.price_raw, f.total_stops, f.total_duration, pos, f.search_type
-                )
+            if f.origin == "AMD" or f.origin.startswith("AMD("):
+                continue
+            pos, src = searcher.get_positioning_cost(
+                f.origin, date.fromisoformat(f.departure_date)
+            )
+            f.positioning_cost = pos
+            f.positioning_source = src
+            f.effective_total = f.price_raw + pos
+            f.value_score = compute_value_score(
+                f.price_raw, f.total_stops, f.total_duration, pos, f.search_type
+            )
 
-    if run_oneway:
-        top_origins = valid_origins[:8]
+    if run_oneway and not budget.exhausted:
+        oneway_targets = seed_oneway_targets(all_flights, ONEWAY_SEED_COUNT)
+        print(f"  One-way seeds: {len(oneway_targets)} cheapest refined round trips")
         oneway_flights = run_oneway_combos(
             searcher,
-            top_origins,
-            dest_variants[:1],
-            refine_pairs[:30],
+            oneway_targets,
+            dest_entity_map,
             price_history=price_history,
         )
         all_flights.extend(oneway_flights)
-        price_history.record_run("oneway", searcher.search_count, len(oneway_flights))
+        price_history.record_run("oneway", budget.used, len(oneway_flights))
 
-    if run_gateway:
+    if run_gateway and not budget.exhausted:
         gw_flights = run_international_gateway_search(
             searcher,
             INTERNATIONAL_GATEWAYS,
             dest_variants[:1],
-            coarse_pairs[:15],
+            coarse_pairs[:10],
             price_history=price_history,
         )
         all_flights.extend(gw_flights)
-        price_history.record_run("gateway", searcher.search_count, len(gw_flights))
+        price_history.record_run("gateway", budget.used, len(gw_flights))
+
+    if run_hub and not budget.exhausted and dest_variants:
+        dest_label, dest_eid = dest_variants[0]
+        hub_flights = run_hub_graph_search(
+            searcher,
+            HUB_GRAPH_HUBS,
+            dest_eid,
+            dest_label,
+            refine_pairs[:HUB_GRAPH_MAX_PAIRS],
+            price_history=price_history,
+            alerts=alerts,
+        )
+        all_flights.extend(hub_flights)
+        price_history.record_run("hub_graph", budget.used, len(hub_flights))
 
     unique = deduplicate(all_flights)
     elapsed = time.time() - t_start
 
     print(f"\n\nSearch complete: {elapsed/60:.1f} minutes")
-    print(f"  API searches: {searcher.search_count}")
+    print(f"  API searches: {budget.used} / {budget.max_calls}")
     print(f"  Raw flights: {len(all_flights)}")
     print(f"  Unique flights: {len(unique)}")
     print(f"  Failed searches: {searcher.fail_count}")
+    if budget.exhausted:
+        print("  NOTE: API budget exhausted — later phases may have been skipped")
 
     print_results(unique, valid_origins, elapsed)
-    export_results(unique, searcher, searcher.search_count, elapsed, price_history)
+    export_results(unique, searcher, budget.used, elapsed, price_history)
+    save_alerts(alerts)
 
     if price_history.data.get("routes"):
         print("\n--- PRICE TREND SUMMARY ---")
@@ -1301,6 +2048,44 @@ def main():
                 f"max=Rs.{info.get('max_price_seen', 0):,.0f} "
                 f"({len(info.get('observations', []))} obs)"
             )
+
+    wd_summary = price_history.weekday_summary()
+    if wd_summary:
+        print("\n--- WEEKDAY DEPARTURE PATTERNS ---")
+        for wd in WEEKDAY_NAMES:
+            if wd in wd_summary:
+                s = wd_summary[wd]
+                print(f"  {wd}: min=Rs.{s['min']:,.0f} avg=Rs.{s['avg']:,.0f} ({s['count']} obs)")
+
+    cheap_airlines = price_history.cheapest_airlines(5)
+    if cheap_airlines:
+        print("\n--- CHEAPEST AIRLINES (by avg fare) ---")
+        for name, avg in cheap_airlines:
+            print(f"  {name}: avg Rs.{avg:,.0f}")
+
+    weekly = price_history.weekly_best()
+    if weekly:
+        print(f"\n--- BEST THIS WEEK ---")
+        print(f"  Rs.{weekly['price']:,.0f} on {weekly['route']}")
+
+    all_time = price_history.data.get("all_time_best")
+    if all_time:
+        print(f"\n--- ALL-TIME LOW (fare) ---")
+        print(f"  Rs.{all_time['price']:,.0f} on {all_time['route']} ({all_time.get('timestamp', '')[:10]})")
+
+    all_time_eff = price_history.data.get("all_time_best_effective")
+    if all_time_eff:
+        print(f"\n--- ALL-TIME LOW (effective from AMD) ---")
+        print(
+            f"  Rs.{all_time_eff['effective_total']:,.0f} "
+            f"{all_time_eff['origin']} {all_time_eff['departure_date']}-{all_time_eff['return_date']}"
+        )
+
+    volatile = price_history.volatile_routes(5)
+    if volatile:
+        print("\n--- MOST VOLATILE ROUTES (monitor these daily) ---")
+        for route, vol in volatile:
+            print(f"  {route}: volatility {vol:.1%}")
 
     print(f"\nCompleted: {datetime.now().isoformat()}")
     print(f"Total runtime: {elapsed/60:.1f} minutes")
